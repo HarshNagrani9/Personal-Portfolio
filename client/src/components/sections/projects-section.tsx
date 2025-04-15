@@ -144,7 +144,7 @@ export default function ProjectsSection() {
     <section id="projects" className="py-20">
       <div className="container mx-auto px-6">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -160,7 +160,7 @@ export default function ProjectsSection() {
         </motion.div>
         
         <motion.div 
-          className="filters flex flex-wrap justify-center gap-4 mb-12"
+          className="filters flex flex-wrap justify-center gap-3 mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -169,8 +169,8 @@ export default function ProjectsSection() {
           {(["All", "React", "MERN", "UI/UX"] as ProjectCategory[]).map((category) => (
             <button
               key={category}
-              className={`px-5 py-2 rounded-full bg-card text-foreground hover:bg-primary/20 transition-colors ${
-                filter === category ? 'border border-primary/30' : 'border border-transparent'
+              className={`px-5 py-2 rounded-full bg-card hover:bg-primary/10 transition-all duration-300 ${
+                filter === category ? 'border-2 border-primary text-primary' : 'border border-transparent'
               }`}
               onClick={() => setFilter(category)}
             >
@@ -179,51 +179,70 @@ export default function ProjectsSection() {
           ))}
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {filteredProjects.map((project, index) => (
             <motion.div 
               key={project.id}
-              className="project-card bg-card rounded-xl overflow-hidden shadow-lg border border-primary/10"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
+              className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="relative project-image-container h-52 overflow-hidden bg-gradient-to-br from-primary/30 to-accent/30">
+              <div className="relative project-image-container h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="object-cover w-full h-full opacity-80 hover:scale-105 transition-transform duration-500"
+                  className="object-cover w-full h-full opacity-90 transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               </div>
               
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-bold font-poppins">{project.title}</h3>
-                  <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">{project.date}</span>
+              <div className="p-5">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-bold font-poppins">{project.title}</h3>
+                  <span className="px-2 py-1 bg-primary/5 text-primary text-xs rounded-full">{project.date}</span>
                 </div>
                 
-                <p className="text-muted-foreground mb-4">{project.description}</p>
+                <p className="text-sm text-muted-foreground mb-3 line-clamp-3">{project.description}</p>
                 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <span key={tech} className="px-3 py-1 bg-black text-muted-foreground text-xs rounded-full">
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.technologies.slice(0, 4).map((tech) => (
+                    <span key={tech} className="px-2 py-0.5 bg-black/20 text-muted-foreground text-xs rounded-full">
                       {tech}
                     </span>
                   ))}
+                  {project.technologies.length > 4 && (
+                    <span className="px-2 py-0.5 bg-primary/5 text-primary text-xs rounded-full">
+                      +{project.technologies.length - 4}
+                    </span>
+                  )}
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <div className="flex space-x-3">
-                    <a href={project.github} className="text-primary hover:text-primary/80" aria-label="View Code" target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-github text-lg"></i>
+                  <div className="flex space-x-4">
+                    <a 
+                      href={project.github} 
+                      className="text-foreground hover:text-primary transition-colors duration-300" 
+                      aria-label="View Code" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fab fa-github"></i>
                     </a>
-                    <a href={project.demo} className="text-primary hover:text-primary/80" aria-label="View Demo" target="_blank" rel="noopener noreferrer">
-                      <i className="fas fa-external-link-alt text-lg"></i>
+                    <a 
+                      href={project.demo} 
+                      className="text-foreground hover:text-primary transition-colors duration-300" 
+                      aria-label="View Demo" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fas fa-external-link-alt"></i>
                     </a>
                   </div>
                   
                   {project.badge && (
-                    <span className="text-xs text-muted-foreground flex items-center">
+                    <span className="text-xs flex items-center bg-primary/5 px-2 py-1 rounded-full">
                       <i className={`${project.badge.icon} text-${project.badge.color} mr-1`}></i> {project.badge.text}
                     </span>
                   )}
