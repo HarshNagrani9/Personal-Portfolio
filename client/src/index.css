@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 270 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 336 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 336 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-inter antialiased bg-background text-foreground cursor-none overflow-x-hidden;
+  }
+
+  .dark .content-section {
+    @apply bg-gray-900/60;
+  }
+  
+  .content-section {
+    @apply bg-white/80;
+  }
+
+  .skill-progress {
+    @apply h-[10px] bg-gray-200/20 rounded-md mb-4 relative;
+  }
+  
+  .skill-progress .progress-bar {
+    @apply h-full rounded-md w-0 absolute transition-all duration-1000 ease-out;
+  }
+
+  .timeline-item {
+    @apply relative pl-8 mb-8;
+  }
+  
+  .timeline-item::before {
+    content: '';
+    @apply absolute left-0 top-0 w-[1px] h-full bg-gradient-to-b from-primary to-secondary;
+  }
+  
+  .timeline-item::after {
+    content: '';
+    @apply absolute left-[-4px] top-[5px] w-[10px] h-[10px] rounded-full bg-accent;
+  }
+
+  .section {
+    @apply opacity-0 translate-y-8 transition-all duration-500;
+  }
+  
+  .section.visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .social-icon:hover {
+    @apply text-accent -translate-y-1;
+  }
+
+  .project-card {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .project-card:hover {
+    @apply -translate-y-[10px] scale-[1.02];
+  }
+
+  .nav-link.active {
+    @apply text-primary;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  .custom-container {
+    @apply container mx-auto px-4 md:px-8;
+  }
+}
