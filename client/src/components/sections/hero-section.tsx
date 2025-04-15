@@ -131,16 +131,6 @@ export default function HeroSection() {
                 </motion.div>
                 </div>
               </div>
-              
-              <motion.div 
-                className="absolute -bottom-4 -right-4 bg-card px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 1 }}
-              >
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium">Available for hire</span>
-              </motion.div>
             </div>
           </motion.div>
         </div>
