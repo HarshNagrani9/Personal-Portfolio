@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useGSAPFrom } from "@/hooks/use-gsap";
 
 type ProjectCategory = "All" | "React" | "MERN" | "UI/UX";
 
@@ -126,30 +125,11 @@ export default function ProjectsSection() {
   const filteredProjects = filter === "All" 
     ? projects 
     : projects.filter(project => project.categories.includes(filter));
-  
-  // GSAP animations for project cards
-  useGSAPFrom(".project-card", {
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.1,
-    ease: "power3.out"
-  }, {
-    trigger: "#projects",
-    start: "top 80%",
-    once: true
-  });
 
   return (
     <section id="projects" className="py-20">
       <div className="container mx-auto px-6">
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="text-center mb-12">
           <h2 className="section-title text-3xl md:text-4xl font-bold font-poppins mb-4">
             My <span className="text-primary">Projects</span>
           </h2>
@@ -157,15 +137,9 @@ export default function ProjectsSection() {
           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
             Here are some of the projects I've worked on, showcasing my skills in web development and UI/UX design.
           </p>
-        </motion.div>
+        </div>
         
-        <motion.div 
-          className="filters flex flex-wrap justify-center gap-3 mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <div className="filters flex flex-wrap justify-center gap-3 mb-10">
           {(["All", "React", "MERN", "UI/UX"] as ProjectCategory[]).map((category) => (
             <button
               key={category}
@@ -177,17 +151,13 @@ export default function ProjectsSection() {
               {category}
             </button>
           ))}
-        </motion.div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div 
+          {filteredProjects.map((project) => (
+            <div 
               key={project.id}
-              className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5"
             >
               <div className="relative project-image-container h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
                 <img 
@@ -204,7 +174,7 @@ export default function ProjectsSection() {
                   <span className="px-2 py-1 bg-primary/5 text-primary text-xs rounded-full">{project.date}</span>
                 </div>
                 
-                <p className="text-sm text-muted-foreground mb-3 line-clamp-3">{project.description}</p>
+                <p className="text-sm text-muted-foreground mb-3 h-12 overflow-hidden">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {project.technologies.slice(0, 4).map((tech) => (
@@ -248,24 +218,18 @@ export default function ProjectsSection() {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
         
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <div className="text-center mt-12">
           <a 
             href="#" 
             className="inline-block bg-card hover:bg-card/80 border border-primary/30 text-foreground font-medium px-6 py-3 rounded-full transition-all"
           >
             View All Projects <i className="fas fa-arrow-right ml-2"></i>
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
