@@ -1,4 +1,4 @@
-import { users, type User, type InsertUser, type Contact, type InsertContact } from "@shared/schema";
+import { users, type User, type InsertUser } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -7,20 +7,15 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  createContact(contact: InsertContact & { createdAt: string }): Promise<Contact>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
-  private contacts: Map<number, Contact>;
   currentId: number;
-  currentContactId: number;
 
   constructor() {
     this.users = new Map();
-    this.contacts = new Map();
     this.currentId = 1;
-    this.currentContactId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -38,13 +33,6 @@ export class MemStorage implements IStorage {
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
-  }
-
-  async createContact(contactData: InsertContact & { createdAt: string }): Promise<Contact> {
-    const id = this.currentContactId++;
-    const contact: Contact = { ...contactData, id };
-    this.contacts.set(id, contact);
-    return contact;
   }
 }
 
