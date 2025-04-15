@@ -1,0 +1,61 @@
+Harsh Nagrani
+9638088873 | Leetcode | Linkedin | GitHub | harshnagrani0910@gmail.com
+Education
+KJ Somaiya College of Engineering Bachelors in Computer Engineering St Xavier’s high school High Secondary Education Experience
+Mumbai, MH
+Oct. 2022 – May 2026
+Adipur, Gujarat
+June. 2020 – March 2022
+Frontend React Developer March 2024 – April 2024
+PressX India
+• Programmed seamless custom user profiles utilizing React JS, resulting in enhanced access to order history;
+streamlined the onboarding process resulted in collecting over 500 new users within one month
+• Engineered an interactive platform with custom profiles that streamlined access to order history and personal
+information; resulted in 150+ new daily active users within the first month of launch.
+• Established custom user profiles for seamless access to order and personal information, resulting in a 170% increase
+in user participation
+Projects
+Horizon Dashboard | React, Node JS, Firebase | Github | Video Demo Oct 2023
+∗ Integrated the Plaid API into the dashboard, achieving a 67% increase in speed compared to other sample
+banking solutions. Utilized the MERN stack and Firebase to ensure seamless user interactions
+∗ Employed Firebase Firestore for secure data storage and authentication in the project’s backend infrastructure
+∗ Achieved recognition as a finalist in the Devopia Hackathon, demonstrating innovative technology integration and
+teamwork
+ChatSync | React, Express, MongoDB, Node JS | Github August 2024
+∗ Implemented a robust user profile system with seamless image upload/removal using Multer, storing 100% files on
+the server
+∗ Provided a real-time chat feature powered by WebSockets, facilitating 100% instant messaging
+∗ Ensured secure user access with token-based authentication (JWT) for login and signup
+Apple UI clone | React, Three JS, GSAP | Github | Live Demo June 2024
+∗ Developed an Apple UI clone utilizing React, React Three Fiber, and GSAP, focusing on advanced UI/UX design
+principles and seamless animations.
+∗ Gained proficiency in Three.js and GSAP for creating 3D graphics and smooth animation effects, enhancing the
+interactive experience of the web application.
+∗ Enhanced user interaction with the 3D model, outperforming 30% of websites in terms of engagement and user
+experience
+Technical Skills
+Languages: C/C++, JavaScript, SQL, Python, HTML, CSS
+Frameworks: React, Redux, GSAP, Three JS, NodeJS, ExpressJS, MongoDB, Flask, Sciket-learn, Tailwind
+Core Subjects: Operating System, Object Oriented Programming(OOP), Database Management Systems(DBMS)
+Developer tools: Git, GitHub, VS Code
+Libraries: pandas, NumPy, Matplotlib, OpenCv
+Data Structures and Algorithm
+Courses: Successfully completed a comprehensive 5-month online course on data structures and algorithms offered by
+CodeHelp, gaining valuable expertise in this fundamental aspect of computer science | Certificate
+Leetcode: Solved 200+ problems on leetcode
+Codechef : Achieved 2 stars on Codechef Codechef Profile
+Constest Ratings: 1525 Leetcode Profile
+Extracurricular activities
+Council Head DataZen
+• Lead a team of 25+ members to promote data science, AI, and ML among students
+• Foster collaboration and knowledge sharing within the council and across disciplines
+• Organize workshops, events, and online meets to engage the community
+July 2024 - Present
+Tech Member DataZen
+July 2023 - July 2024
+• Contributed to the organization of a 24-hour offline hackathon focused on AI/ML
+• Spearheaded the organization and delivery of a web scraping workshop attended by over 100 enthusiastic
+participants, providing expert guidance and facilitating hands-on learning experiences in data extraction
+techniques.
+• Conducted comprehensive training sessions on foundational Python programming for data analysis, equipping a
+cohort of over 300 participants with the essential tools to extract, manipulate, and analyze data effectively
