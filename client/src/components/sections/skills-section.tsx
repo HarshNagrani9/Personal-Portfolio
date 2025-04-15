@@ -20,6 +20,8 @@ export default function SkillsSection() {
     { name: "MongoDB/Firebase", percentage: 70 },
     { name: "Three.js/GSAP", percentage: 65 },
     { name: "Python/Flask", percentage: 60 },
+    { name: "SQL/Database Design", percentage: 75 },
+    { name: "Data Structures & Algorithms", percentage: 80 },
   ];
 
   const toolsAndTechnologies: SkillBox[] = [
@@ -32,6 +34,11 @@ export default function SkillsSection() {
     { name: "C/C++", icon: "fas fa-code" },
     { name: "Express", icon: "fas fa-server" },
     { name: "Tailwind", icon: "fab fa-css3-alt" },
+    { name: "Three.js", icon: "fas fa-cube" },
+    { name: "SQL", icon: "fas fa-table" },
+    { name: "PHP", icon: "fab fa-php" },
+    { name: "Algorithms", icon: "fas fa-sitemap" },
+    { name: "Data Structures", icon: "fas fa-project-diagram" },
   ];
 
   useEffect(() => {

@@ -114,7 +114,21 @@ export default function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full"></div>
                 {/* Placeholder illustration instead of photo */}
                 <div className="w-full h-full flex items-center justify-center bg-card">
-                  <i className="fas fa-code text-8xl text-primary/50"></i>
+                <motion.div
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: 360 }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  <div className="relative w-24 h-24">
+                    <div className="absolute w-full h-full bg-primary/30 transform rotate-45 rounded-lg"></div>
+                    <div className="absolute w-full h-full bg-primary/50 transform rotate-12 rounded-lg"></div>
+                    <div className="absolute w-full h-full bg-primary/70 transform -rotate-12 rounded-lg"></div>
+                  </div>
+                </motion.div>
                 </div>
               </div>
               
@@ -137,9 +151,9 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.5 }}
         >
-          <span className="text-muted-foreground text-sm">Scroll Down</span>
+          <span className="text-muted-foreground text-sm mb-3">Scroll Down</span>
           <motion.i 
-            className="fas fa-chevron-down text-primary mt-2"
+            className="fas fa-chevron-down text-primary mt-4"
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
           ></motion.i>

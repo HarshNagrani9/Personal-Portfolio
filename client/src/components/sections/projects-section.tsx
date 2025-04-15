@@ -72,6 +72,54 @@ export default function ProjectsSection() {
         icon: "fas fa-cube",
         color: "purple-400"
       }
+    },
+    {
+      id: 4,
+      title: "Algorithm Visualizer",
+      description: "Interactive tool for visualizing various sorting and pathfinding algorithms with step-by-step animation.",
+      date: "May 2024",
+      image: "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      categories: ["React", "UI/UX"],
+      technologies: ["React", "TypeScript", "GSAP", "Data Structures"],
+      github: "https://github.com/",
+      demo: "https://demo.com/",
+      badge: {
+        text: "Educational Tool",
+        icon: "fas fa-graduation-cap",
+        color: "green-500"
+      }
+    },
+    {
+      id: 5,
+      title: "3D Portfolio Website",
+      description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
+      date: "Apr 2024",
+      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      categories: ["React", "UI/UX"],
+      technologies: ["React", "Three.js", "Framer Motion", "GSAP"],
+      github: "https://github.com/",
+      demo: "https://demo.com/",
+      badge: {
+        text: "Interactive 3D",
+        icon: "fas fa-cubes",
+        color: "blue-500"
+      }
+    },
+    {
+      id: 6,
+      title: "E-Commerce Dashboard",
+      description: "Full-stack e-commerce admin dashboard with inventory management, sales analytics, and order processing.",
+      date: "Mar 2024",
+      image: "https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      categories: ["React", "MERN"],
+      technologies: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
+      github: "https://github.com/",
+      demo: "https://demo.com/",
+      badge: {
+        text: "Business Solution",
+        icon: "fas fa-store",
+        color: "indigo-500"
+      }
     }
   ];
 
