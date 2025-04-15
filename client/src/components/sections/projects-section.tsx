@@ -444,14 +444,14 @@ export default function ProjectsSection() {
     },
     {
       id: 5,
-      title: "3D Portfolio Website",
+      title: "Portfolio Website",
       description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
       date: "",
       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
       categories: ["React", "UI/UX"],
       technologies: ["React", "Framer Motion", "GSAP"],
-      github: "https://github.com/",
-      demo: "https://demo.com/",
+      github: "https://github.com/HarshNagrani9/Personal-Portfolio",
+      demo: "",
       badge: {
         text: "Interactive 3D",
         icon: "fas fa-cubes",
