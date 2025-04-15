@@ -4,123 +4,157 @@
 
 @layer base {
   :root {
-    --primary: 243 100% 69%;
-    --secondary: 245 100% 64%;
-    --accent: 349 100% 76%;
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
     
-    --background: 240 17% 7%;
-    --foreground: 0 0% 88%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
     
-    --card: 240 18% 12%;
-    --card-foreground: 0 0% 88%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
     
-    --popover: 240 18% 12%;
-    --popover-foreground: 0 0% 88%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
     
-    --muted: 240 7% 20%;
-    --muted-foreground: 240 5% 65%;
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 210 40% 98%;
     
-    --border: 240 5% 26%;
-    --input: 240 5% 26%;
+    --accent: 262.1 83.3% 57.8%;
+    --accent-foreground: 210 40% 98%;
     
-    --ring: 243 100% 69%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
     
     --radius: 0.5rem;
   }
- 
-  .light {
-    --background: 0 0% 97%;
-    --foreground: 240 10% 20%;
+  
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 20%;
+    --card: 222.2 84% 9.8%;
+    --card-foreground: 210 40% 98%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 20%;
+    --popover: 222.2 84% 9.8%;
+    --popover-foreground: 210 40% 98%;
     
-    --muted: 240 7% 94%;
-    --muted-foreground: 240 3% 44%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
     
-    --border: 240 5% 88%;
-    --input: 240 5% 88%;
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 262.1 83.3% 57.8%;
+    --accent-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
   }
+}
 
+@layer base {
   * {
     @apply border-border;
   }
-
+  
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  
   html {
     scroll-behavior: smooth;
   }
-
-  body {
-    @apply font-inter bg-background text-foreground antialiased overflow-x-hidden;
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    width: 5px;
   }
-
-  .cursor {
-    @apply w-5 h-5 bg-primary/50 fixed rounded-full pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 mix-blend-difference;
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
   }
-
-  .cursor-follower {
-    @apply w-10 h-10 border-2 border-primary/20 fixed rounded-full pointer-events-none z-40 -translate-x-1/2 -translate-y-1/2;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-poppins;
-  }
-
-  .timeline-item::before {
-    content: '';
-    @apply absolute -left-[33px] w-[15px] h-[15px] rounded-full bg-primary border-[3px] border-card;
-  }
-
-  .timeline-line {
-    @apply absolute -left-[26px] top-0 bottom-0 w-[2px] bg-primary/50 h-full;
-  }
-
-  .progress-ring {
-    transform: rotate(-90deg);
-  }
-
-  .project-card:hover .project-overlay {
-    @apply opacity-100;
-  }
-
-  /* Navlink hover effect */
-  .nav-link::after {
-    content: '';
-    @apply absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300;
-  }
-
-  .nav-link:hover::after {
-    @apply w-full;
-  }
-
-  #particles-js {
-    @apply absolute w-full h-full top-0 left-0;
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 10px;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-primary hover:bg-opacity-90 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all hover:shadow-xl hover:scale-105 inline-flex items-center justify-center;
-  }
-
-  .btn-secondary {
-    @apply bg-transparent border-2 border-primary text-primary font-medium py-3 px-8 rounded-full shadow-lg transition-all hover:shadow-xl hover:bg-primary/10 hover:scale-105 inline-flex items-center justify-center;
-  }
-}
-
-@layer utilities {
-  .font-poppins {
-    font-family: 'Poppins', sans-serif;
+  .timeline-container {
+    position: relative;
   }
   
-  .font-inter {
-    font-family: 'Inter', sans-serif;
+  .timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: rgba(59, 130, 246, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 18px;
   }
   
-  .font-code {
-    font-family: 'Fira Code', monospace;
+  .timeline-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 30px;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 13px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    z-index: 1;
+  }
+  
+  .project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .social-icon {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    transform: translateY(-3px);
+  }
+  
+  .progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+    width: 0%;
+    transition: width 1.5s ease-in-out;
   }
 }
