@@ -172,18 +172,26 @@
     transform: translateY(-3px);
   }
   
-  .progress-bar-container {
-    width: 100%;
-    height: 6px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+  .skill-card {
+    position: relative;
     overflow: hidden;
+    z-index: 1;
   }
   
-  .progress-bar {
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
-    width: 0%;
-    transition: width 1.5s ease-in-out;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+  }
+  
+  .skill-card:hover::before {
+    opacity: 1;
   }
 }
