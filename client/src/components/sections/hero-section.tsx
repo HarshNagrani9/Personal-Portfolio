@@ -4,9 +4,9 @@ import { useGSAPFrom } from "@/hooks/use-gsap";
 
 export default function HeroSection() {
   const socialLinks = [
-    { href: "https://github.com/", icon: "fab fa-github", label: "GitHub" },
-    { href: "https://linkedin.com/", icon: "fab fa-linkedin", label: "LinkedIn" },
-    { href: "https://leetcode.com/", icon: "fab fa-leetcode", label: "LeetCode" },
+    { href: "https://github.com/HarshNagrani9", icon: "fab fa-github", label: "GitHub" },
+    { href: "https://www.linkedin.com/in/harsh-nagrani-1ab98623a/", icon: "fab fa-linkedin", label: "LinkedIn" },
+    { href: "https://leetcode.com/u/harshnagrani009/", icon: "fas fa-code", label: "LeetCode" },
     { href: "mailto:harshnagrani0910@gmail.com", icon: "fas fa-envelope", label: "Email" },
   ];
 

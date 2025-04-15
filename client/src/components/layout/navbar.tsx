@@ -1,65 +1,122 @@
 import { useState, useEffect } from "react";
-import { MobileMenu } from "@/components/ui/mobile-menu";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
+import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const navLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
-    { href: "#experience", label: "Experience" },
-    { href: "#projects", label: "Projects" },
-    { href: "#skills", label: "Skills" },
-    { href: "#contact", label: "Contact" },
-  ];
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      // Change navbar style on scroll
+      setIsScrolled(window.scrollY > 10);
+      
+      // Highlight active section
+      const sections = document.querySelectorAll('section[id]');
+      let currentSection = '';
+      
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.clientHeight;
+        
+        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute('id') || '';
+        }
+      });
+      
+      setActiveSection(currentSection);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 80,
+        behavior: 'smooth'
+      });
+      closeMobileMenu();
+    }
+  };
+
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-3' : 'bg-transparent py-5'}`}>
-      <nav className="container mx-auto px-6 flex justify-between items-center">
-        <motion.a 
-          href="#" 
-          className="text-2xl font-bold font-poppins text-white"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : ''}`}>
+      <div className="custom-container flex justify-between items-center">
+        <a 
+          href="#hero" 
+          className="text-2xl font-bold font-poppins text-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection('hero');
+          }}
         >
-          <span className="text-primary">H</span>arsh
-        </motion.a>
+          HN.
+        </a>
         
         <div className="hidden md:flex space-x-8">
-          {navLinks.map((link, index) => (
-            <motion.a 
-              key={link.href}
-              href={link.href} 
-              className="text-foreground hover:text-primary transition-colors"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 * index }}
+          {['about', 'experience', 'projects', 'skills', 'contact'].map((section) => (
+            <a 
+              key={section}
+              href={`#${section}`}
+              className={`nav-link hover:text-primary transition-colors ${activeSection === section ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(section);
+              }}
             >
-              {link.label}
-            </motion.a>
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+            </a>
           ))}
         </div>
         
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <MobileMenu navLinks={navLinks} />
+          
+          <button 
+            onClick={toggleMobileMenu}
+            className="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-      </nav>
-    </header>
+      </div>
+      
+      {/* Mobile Menu */}
+      <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} bg-white dark:bg-gray-900 py-4 px-4 absolute w-full top-full left-0 shadow-lg`}>
+        <div className="flex flex-col space-y-4">
+          {['about', 'experience', 'projects', 'skills', 'contact'].map((section) => (
+            <a 
+              key={section}
+              href={`#${section}`}
+              className={`nav-link hover:text-primary transition-colors ${activeSection === section ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(section);
+              }}
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;

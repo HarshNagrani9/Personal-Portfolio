@@ -128,7 +128,7 @@ export default function ContactSection() {
               
               <div className="flex space-x-4">
                 <a 
-                  href="https://github.com/" 
+                  href="https://github.com/HarshNagrani9" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-12 h-12 bg-black hover:bg-primary/20 rounded-full flex items-center justify-center text-foreground hover:text-primary transition-colors social-icon" 
@@ -137,7 +137,7 @@ export default function ContactSection() {
                   <i className="fab fa-github text-xl"></i>
                 </a>
                 <a 
-                  href="https://linkedin.com/" 
+                  href="https://www.linkedin.com/in/harsh-nagrani-1ab98623a/"
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-12 h-12 bg-black hover:bg-primary/20 rounded-full flex items-center justify-center text-foreground hover:text-primary transition-colors social-icon" 
@@ -146,22 +146,13 @@ export default function ContactSection() {
                   <i className="fab fa-linkedin-in text-xl"></i>
                 </a>
                 <a 
-                  href="https://leetcode.com/" 
+                  href="https://leetcode.com/u/harshnagrani009" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-12 h-12 bg-black hover:bg-primary/20 rounded-full flex items-center justify-center text-foreground hover:text-primary transition-colors social-icon" 
                   aria-label="LeetCode"
                 >
-                  <i className="fab fa-leetcode text-xl"></i>
-                </a>
-                <a 
-                  href="https://twitter.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-12 h-12 bg-black hover:bg-primary/20 rounded-full flex items-center justify-center text-foreground hover:text-primary transition-colors social-icon" 
-                  aria-label="Twitter"
-                >
-                  <i className="fab fa-twitter text-xl"></i>
+                  <i className="fas fa-code text-xl"></i>
                 </a>
               </div>
             </div>
