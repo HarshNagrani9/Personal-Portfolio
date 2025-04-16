@@ -4,6 +4,7 @@ import ExperienceSection from "@/components/sections/experience-section";
 import ProjectsSection from "@/components/sections/projects-section";
 import SkillsSection from "@/components/sections/skills-section";
 import ContactSection from "@/components/sections/contact-section";
+import AnimationCom from "@/components/sections/AnimationCom";
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -46,6 +47,7 @@ const Home = () => {
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
+      <AnimationCom />
     </main>
   );
 };
