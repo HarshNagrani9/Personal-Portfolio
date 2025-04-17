@@ -114,8 +114,8 @@ export default function HeroSection() {
   <div className="w-full h-full">
     <Suspense fallback={<SplineLoadingFallback />}>
       <Spline 
-        // scene="https://prod.spline.design/Ah8O0mgZIszNWHGS/scene.splinecode"
-        scene="https://prod.spline.design/PAx14ihBw7DhrPUI/scene.splinecode"
+        scene="https://prod.spline.design/FD8OYszwtIHy-yIj/scene.splinecode"
+        //scene="https://prod.spline.design/PAx14ihBw7DhrPUI/scene.splinecode"
         className="w-full h-full scale-110 md:scale-125"
       />
     </Suspense>
