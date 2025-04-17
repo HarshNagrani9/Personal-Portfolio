@@ -265,16 +265,16 @@ export default function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-           <div className="relative w-full max-w-[320px] md:max-w-[400px] lg:max-w-[500px] aspect-square">
-    <div className="w-full h-full overflow-hidden">
-      <Suspense fallback={<SplineLoadingFallback />}>
-        <Spline 
-          scene="https://prod.spline.design/PAx14ihBw7DhrPUI/scene.splinecode"
-          className="w-full h-full"
-        />
-      </Suspense>
-    </div>
+           <div className="relative w-full max-w-[360px] md:max-w-[480px] lg:max-w-[600px] xl:max-w-[700px] aspect-square">
+  <div className="w-full h-full">
+    <Suspense fallback={<SplineLoadingFallback />}>
+      <Spline 
+        scene="https://prod.spline.design/PAx14ihBw7DhrPUI/scene.splinecode"
+        className="w-full h-full scale-110 md:scale-125"
+      />
+    </Suspense>
   </div>
+</div>
           </motion.div>
         </div>
         
