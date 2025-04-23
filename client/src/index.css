@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --primary-rgb: 129, 140, 248;
     --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
     
