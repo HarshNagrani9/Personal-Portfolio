@@ -92,7 +92,7 @@ export default function AboutSection() {
             </motion.div>
             
             <motion.a 
-  href="https://drive.google.com/file/d/10-S5FdPKF0gz9vkch_WnRaItG6__4bY5/view?usp=sharing" 
+  href="https://drive.google.com/file/d/1i_DOyzQ0zH5wp051sEKgdJTty6QSGcf4/view?usp=sharing" 
   className="inline-block bg-card hover:bg-muted border border-primary/30 text-foreground font-medium px-6 py-3 rounded-full transition-all"
   initial={{ opacity: 0, y: 20 }}
   whileInView={{ opacity: 1, y: 0 }}
