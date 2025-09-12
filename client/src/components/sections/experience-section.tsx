@@ -40,6 +40,30 @@ export default function ExperienceSection() {
                 <div className="timeline-dot"></div>
                 <div className="bg-card rounded-lg p-6 shadow-lg border border-primary/10">
                   <div className="flex flex-wrap justify-between items-start mb-2">
+                    <h4 className="text-xl font-semibold">Software Engineering Intern</h4>
+                    <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full inline-block mt-1">Jun 2025 - Aug 2025</span>
+                  </div>
+                  <h5 className="text-lg text-muted-foreground mb-4">ConnectWise</h5>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-start">
+                      <i className="fas fa-circle text-xs text-primary mt-1.5 mr-2"></i>
+                      <span>Designed a data pipeline from Snowflake for large-scale data ingestion and transformation, fueling a recommendation system efficiently recommending 81% users.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-circle text-xs text-primary mt-1.5 mr-2"></i>
+                      <span>Developed and optimized clustering algorithms, identifying 20-90 optimal groups (validated by Silhouette Score) to derive actionable insights from complex operational data.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-circle text-xs text-primary mt-1.5 mr-2"></i>
+                      <span>Established seamless data persistence to PostgreSQL for weekly/monthly synchronization, enabling GoLang backend microservices to deliver real-time, data-driven recommendations to React frontends.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="bg-card rounded-lg p-6 shadow-lg border border-primary/10">
+                  <div className="flex flex-wrap justify-between items-start mb-2">
                     <h4 className="text-xl font-semibold">Frontend React Developer</h4>
                     <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full inline-block mt-1">Mar - Apr 2024</span>
                   </div>
