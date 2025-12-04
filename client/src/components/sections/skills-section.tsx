@@ -49,7 +49,7 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="py-20 bg-black/50">
       <div className="container mx-auto px-6">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -64,7 +64,7 @@ export default function SkillsSection() {
             Here are the technologies and tools I'm proficient with.
           </p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -76,10 +76,10 @@ export default function SkillsSection() {
             <h3 className="text-2xl font-bold mb-6 font-poppins flex items-center justify-center">
               <i className="fas fa-laptop-code text-primary mr-3"></i> Tools & Technologies
             </h3>
-            
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
               {toolsAndTechnologies.map((tool, index) => (
-                <motion.div 
+                <motion.div
                   key={tool.name}
                   className="skill-box p-4 bg-card rounded-lg border border-primary/10 text-center"
                   initial={{ opacity: 0, y: 20 }}
@@ -96,8 +96,8 @@ export default function SkillsSection() {
               ))}
             </div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="col-span-full md:col-span-3 mt-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -107,9 +107,9 @@ export default function SkillsSection() {
             <h3 className="text-xl font-bold mb-4 font-poppins flex items-center justify-center md:justify-start">
               <i className="fas fa-chart-line text-primary mr-3"></i> Coding Achievements
             </h3>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <motion.div 
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <motion.div
                 className="p-4 bg-card rounded-lg border border-primary/10"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
@@ -120,12 +120,12 @@ export default function SkillsSection() {
                   </div>
                   <div>
                     <h4 className="font-medium">LeetCode</h4>
-                    <p className="text-sm text-muted-foreground">Rating: 1525 | 200+ Problems</p>
+                    <p className="text-sm text-muted-foreground">Rating: 1540 | 400+ Problems</p>
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="p-4 bg-card rounded-lg border border-primary/10"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
@@ -136,7 +136,23 @@ export default function SkillsSection() {
                   </div>
                   <div>
                     <h4 className="font-medium">CodeChef</h4>
-                    <p className="text-sm text-muted-foreground">2 Stars | Active Participant</p>
+                    <p className="text-sm text-muted-foreground">3 Stars | Active Participant</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="p-4 bg-card rounded-lg border border-primary/10"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
+                    <i className="fas fa-trophy text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Codeforces</h4>
+                    <p className="text-sm text-muted-foreground">Rating: 1525 | Specialist</p>
                   </div>
                 </div>
               </motion.div>

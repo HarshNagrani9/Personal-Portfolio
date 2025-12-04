@@ -2,6 +2,7 @@ import HeroSection from "@/components/sections/hero-section";
 import AboutSection from "@/components/sections/about-section";
 import ExperienceSection from "@/components/sections/experience-section";
 import ProjectsSection from "@/components/sections/projects-section";
+
 import SkillsSection from "@/components/sections/skills-section";
 import ContactSection from "@/components/sections/contact-section";
 import AnimationCom from "@/components/sections/AnimationCom";
@@ -14,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     // Register GSAP ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
-    
+
     // Animate sections on scroll
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
@@ -33,7 +34,7 @@ const Home = () => {
         }
       );
     });
-    
+
     return () => {
       // Clean up ScrollTrigger instances
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -45,6 +46,7 @@ const Home = () => {
       <HeroSection />
       <AboutSection />
       <ExperienceSection />
+
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
