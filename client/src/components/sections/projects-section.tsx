@@ -715,6 +715,7 @@ interface Project {
   id: number;
   title: string;
   description: string;
+  detailedDescription?: string[];
   date: string;
   image: string;
   categories: ProjectCategory[];
@@ -735,6 +736,28 @@ export default function ProjectsSection() {
   const projects: Project[] = [
     {
       id: 1,
+      title: "MediVault",
+      description: "Full-stack healthcare management platform with blockchain-based file access control, end-to-end encryption, and AI-powered RAG system for intelligent health record analysis.",
+      detailedDescription: [
+        "Built a full-stack healthcare management platform using Next.js 14, TypeScript, and Firebase with role-based authentication, separate dashboards for patients and doctors, and a microservices architecture featuring Python FastAPI for vector search operations, ensuring real-time Firestore synchronization and responsive UI with Tailwind CSS and shadcn/ui.",
+        "Implemented comprehensive security architecture with blockchain-based file access control using Ethereum smart contracts (Solidity) on Sepolia testnet and IPFS for decentralized storage, combined with end-to-end encryption using AES-256-GCM for HIPAA-compliant protection, ensuring patient data ownership and consent-based sharing.",
+        "Designed and implemented a RAG (Retrieval-Augmented Generation) pipeline using Google Gemini 2.0 Flash with FAISS-based vector search, creating separate indices for static medical knowledge (400+ disease entries) and dynamic patient records using Google Embedding API for 768-dimensional vectors, achieving sub-second similarity search performance.",
+        "Developed AI-powered health assistant chatbot that combines static medical knowledge with patient-specific data, providing automated health record analysis, personalized health summaries, actionable recommendations based on vitals, and context-aware responses with source citations for accurate, personalized medical guidance."
+      ],
+      date: "Dec 2024",
+      image: "/images/Google Gemini.jpg",
+      categories: ["React", "MERN", "Python", "ML"],
+      technologies: ["Next.js 14", "TypeScript", "Firebase", "Solidity", "Ethers.js", "IPFS", "FastAPI", "Python", "Google Gemini", "FAISS", "Tailwind CSS", "shadcn/ui"],
+      github: "https://github.com/HarshNagrani9/LY-Project",
+      demo: "https://drive.google.com/file/d/1ZbuSqx1R1kmCBXEVOeHAo4sB2raFj24z/view?usp=sharing",
+      badge: {
+        text: "Blockchain + AI",
+        icon: "fas fa-shield-alt",
+        color: "green-500"
+      }
+    },
+    {
+      id: 2,
       title: "Horizon Dashboard",
       description: "A banking dashboard integrating Plaid API, achieving a 67% increase in speed compared to other sample banking solutions.",
       date: "Oct 2023",
@@ -750,7 +773,7 @@ export default function ProjectsSection() {
       }
     },
     {
-      id: 2,
+      id: 3,
       title: "ChatSync",
       description: "A real-time chat application with robust user profiles and secure authentication using JWT tokens.",
       date: "Aug 2024",
@@ -766,7 +789,7 @@ export default function ProjectsSection() {
       }
     },
     {
-      id: 3,
+      id: 4,
       title: "Apple UI Clone",
       description: "A stunning Apple UI clone with 3D model interactions and smooth animations using ThreeJS and GSAP.",
       date: "Jun 2024",
@@ -782,7 +805,7 @@ export default function ProjectsSection() {
       }
     },
     {
-      id: 4,
+      id: 5,
       title: "Movie Recommendation System",
       description: "A web-based content-based filtering system that recommends movies based on genre similarity using machine learning techniques.",
       date: "May 2024",
@@ -798,7 +821,7 @@ export default function ProjectsSection() {
       }
     },
     {
-      id: 5,
+      id: 6,
       title: "Portfolio Website",
       description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
       date: "April 2025",
@@ -811,22 +834,6 @@ export default function ProjectsSection() {
         text: "Interactive 3D",
         icon: "fas fa-cubes",
         color: "blue-500"
-      }
-    },
-    {
-      id: 6,
-      title: "E-Commerce Dashboard",
-      description: "Full-stack e-commerce admin dashboard with inventory management, sales analytics, and order processing.",
-      date: "",
-      image: "https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["React", "MERN"],
-      technologies: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
-      github: "https://github.com/",
-      demo: "https://demo.com/",
-      badge: {
-        text: "Business Solution",
-        icon: "fas fa-store",
-        color: "indigo-500"
       }
     }
   ];
@@ -1122,10 +1129,23 @@ export default function ProjectsSection() {
                   </div>
                 </div>
                 
-                <div className="md:w-1/2 p-6 md:p-8">
+                <div className="md:w-1/2 p-6 md:p-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
                   <h2 className="text-2xl font-bold font-poppins mb-3">{selectedProject.title}</h2>
                   
-                  <p className="text-muted-foreground mb-6">{selectedProject.description}</p>
+                  {selectedProject.detailedDescription ? (
+                    <div className="mb-6">
+                      <ul className="space-y-3 text-muted-foreground">
+                        {selectedProject.detailedDescription.map((point, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="text-primary mr-2 mt-1">•</span>
+                            <span className="flex-1">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground mb-6">{selectedProject.description}</p>
+                  )}
                   
                   <div className="mb-6">
                     <h3 className="text-lg font-medium mb-3">Technologies</h3>
