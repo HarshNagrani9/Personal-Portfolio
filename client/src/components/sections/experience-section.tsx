@@ -18,7 +18,7 @@ const experienceData = [
     company: "PressX India",
     period: "Mar - Apr 2024",
     description: [
-      "Programmed seamless custom user profiles utilizing React JS, resulting in enhanced access to order history; streamlined the onboarding process resulted in collecting over 500 new users within one month.",
+      "Programmed seamless user profiles utilizing React JS, resulting in enhanced access to order history; streamlined the onboarding process resulted in collecting over 500 new users within one month.",
       "Engineered an interactive platform with custom profiles that streamlined access to order history and personal information; resulted in 150+ new daily active users within the first month of launch.",
       "Established custom user profiles for seamless access to order and personal information, resulting in a 170% increase in user participation."
     ]
