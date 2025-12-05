@@ -1,1202 +1,423 @@
-// // import { useState } from "react";
-// // import { motion, AnimatePresence } from "framer-motion";
 
-// // type ProjectCategory = "All" | "React" | "MERN" | "UI/UX";
+import React, { useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
 
-// // interface Project {
-// //   id: number;
-// //   title: string;
-// //   description: string;
-// //   date: string;
-// //   image: string;
-// //   categories: ProjectCategory[];
-// //   technologies: string[];
-// //   github: string;
-// //   demo: string;
-// //   badge?: {
-// //     text: string;
-// //     icon: string;
-// //     color: string;
-// //   };
-// // }
+const Projects3DShowcase = () => {
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
+  const rendererRef = useRef(null);
+  const meshRef = useRef(null);
+  const scrollProgressRef = useRef(0);
+  const [activeProject, setActiveProject] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-// // export default function ProjectsSection() {
-// //   const [filter, setFilter] = useState<ProjectCategory>("All");
-// //   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
-// //   const projects: Project[] = [
-// //     {
-// //       id: 1,
-// //       title: "Horizon Dashboard",
-// //       description: "A banking dashboard integrating Plaid API, achieving a 67% increase in speed compared to other sample banking solutions.",
-// //       date: "Oct 2023",
-// //       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "MERN"],
-// //       technologies: ["React", "Node.js", "Firebase"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "Hackathon Finalist",
-// //         icon: "fas fa-trophy",
-// //         color: "yellow-500"
-// //       }
-// //     },
-// //     {
-// //       id: 2,
-// //       title: "ChatSync",
-// //       description: "A real-time chat application with robust user profiles and secure authentication using JWT tokens.",
-// //       date: "Aug 2024",
-// //       image: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "MERN"],
-// //       technologies: ["React", "Express", "MongoDB", "WebSockets"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "100% Real-time",
-// //         icon: "fas fa-comment",
-// //         color: "blue-400"
-// //       }
-// //     },
-// //     {
-// //       id: 3,
-// //       title: "Apple UI Clone",
-// //       description: "A stunning Apple UI clone with 3D model interactions and smooth animations using ThreeJS and GSAP.",
-// //       date: "Jun 2024",
-// //       image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "UI/UX"],
-// //       technologies: ["React", "Three.js", "GSAP"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "3D Interactions",
-// //         icon: "fas fa-cube",
-// //         color: "purple-400"
-// //       }
-// //     },
-// //     {
-// //       id: 4,
-// //       title: "Algorithm Visualizer",
-// //       description: "Interactive tool for visualizing various sorting and pathfinding algorithms with step-by-step animation.",
-// //       date: "May 2024",
-// //       image: "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "UI/UX"],
-// //       technologies: ["React", "TypeScript", "GSAP", "Data Structures"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "Educational Tool",
-// //         icon: "fas fa-graduation-cap",
-// //         color: "green-500"
-// //       }
-// //     },
-// //     {
-// //       id: 5,
-// //       title: "3D Portfolio Website",
-// //       description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
-// //       date: "Apr 2024",
-// //       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "UI/UX"],
-// //       technologies: ["React", "Framer Motion", "GSAP"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "Interactive 3D",
-// //         icon: "fas fa-cubes",
-// //         color: "blue-500"
-// //       }
-// //     },
-// //     {
-// //       id: 6,
-// //       title: "E-Commerce Dashboard",
-// //       description: "Full-stack e-commerce admin dashboard with inventory management, sales analytics, and order processing.",
-// //       date: "Mar 2024",
-// //       image: "https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-// //       categories: ["React", "MERN"],
-// //       technologies: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
-// //       github: "https://github.com/",
-// //       demo: "https://demo.com/",
-// //       badge: {
-// //         text: "Business Solution",
-// //         icon: "fas fa-store",
-// //         color: "indigo-500"
-// //       }
-// //     }
-// //   ];
-
-// //   const filteredProjects = filter === "All" 
-// //     ? projects 
-// //     : projects.filter(project => project.categories.includes(filter));
-
-// //   // Handle card click to open expanded view
-// //   const handleCardClick = (project: Project) => {
-// //     setSelectedProject(project);
-// //   };
-
-// //   // Close expanded view
-// //   const closeExpandedView = () => {
-// //     setSelectedProject(null);
-// //   };
-
-// //   return (
-// //     <section id="projects" className="py-20">
-// //       <div className="container mx-auto px-6">
-// //         <div className="text-center mb-12">
-// //           <h2 className="section-title text-3xl md:text-4xl font-bold font-poppins mb-4">
-// //             My <span className="text-primary">Projects</span>
-// //           </h2>
-// //           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-// //           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-// //             Here are some of the projects I've worked on, showcasing my skills in web development and UI/UX design.
-// //           </p>
-// //         </div>
-        
-// //         <div className="filters flex flex-wrap justify-center gap-3 mb-10">
-// //           {(["All", "React", "MERN", "UI/UX"] as ProjectCategory[]).map((category) => (
-// //             <button
-// //               key={category}
-// //               className={`px-5 py-2 rounded-full bg-card hover:bg-primary/10 transition-all duration-300 ${
-// //                 filter === category ? 'border-2 border-primary text-primary' : 'border border-transparent'
-// //               }`}
-// //               onClick={() => setFilter(category)}
-// //             >
-// //               {category}
-// //             </button>
-// //           ))}
-// //         </div>
-        
-// //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-// //           {filteredProjects.map((project) => (
-// //             <motion.div 
-// //               key={project.id}
-// //               className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5 cursor-pointer"
-// //               whileHover={{ scale: 1.03, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)" }}
-// //               onClick={() => handleCardClick(project)}
-// //               layoutId={`project-card-${project.id}`}
-// //               transition={{ duration: 0.3 }}
-// //             >
-// //               <div className="relative project-image-container h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
-// //                 <img 
-// //                   src={project.image} 
-// //                   alt={project.title} 
-// //                   className="object-cover w-full h-full opacity-90 transition-transform duration-700 hover:scale-105"
-// //                 />
-// //                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-// //               </div>
-              
-// //               <div className="p-5">
-// //                 <div className="flex justify-between items-start mb-2">
-// //                   <h3 className="text-lg font-bold font-poppins">{project.title}</h3>
-// //                   <span className="px-2 py-1 bg-primary/5 text-primary text-xs rounded-full">{project.date}</span>
-// //                 </div>
-                
-// //                 <p className="text-sm text-muted-foreground mb-3 h-12 overflow-hidden">{project.description}</p>
-                
-// //                 <div className="flex flex-wrap gap-1.5 mb-4">
-// //                   {project.technologies.slice(0, 4).map((tech) => (
-// //                     <span key={tech} className="px-2 py-0.5 bg-black/20 text-muted-foreground text-xs rounded-full">
-// //                       {tech}
-// //                     </span>
-// //                   ))}
-// //                   {project.technologies.length > 4 && (
-// //                     <span className="px-2 py-0.5 bg-primary/5 text-primary text-xs rounded-full">
-// //                       +{project.technologies.length - 4}
-// //                     </span>
-// //                   )}
-// //                 </div>
-                
-// //                 <div className="flex justify-between items-center">
-// //                   <div className="flex space-x-4">
-// //                     <a 
-// //                       href={project.github} 
-// //                       className="text-foreground hover:text-primary transition-colors duration-300" 
-// //                       aria-label="View Code" 
-// //                       target="_blank" 
-// //                       rel="noopener noreferrer"
-// //                       onClick={(e) => e.stopPropagation()}
-// //                     >
-// //                       <i className="fab fa-github"></i>
-// //                     </a>
-// //                     <a 
-// //                       href={project.demo} 
-// //                       className="text-foreground hover:text-primary transition-colors duration-300" 
-// //                       aria-label="View Demo" 
-// //                       target="_blank" 
-// //                       rel="noopener noreferrer"
-// //                       onClick={(e) => e.stopPropagation()}
-// //                     >
-// //                       <i className="fas fa-external-link-alt"></i>
-// //                     </a>
-// //                   </div>
-                  
-// //                   {project.badge && (
-// //                     <span className="text-xs flex items-center bg-primary/5 px-2 py-1 rounded-full">
-// //                       <i className={`${project.badge.icon} text-${project.badge.color} mr-1`}></i> {project.badge.text}
-// //                     </span>
-// //                   )}
-// //                 </div>
-// //               </div>
-// //             </motion.div>
-// //           ))}
-// //         </div>
-        
-// //         <div className="text-center mt-12">
-// //           <a 
-// //             href="#" 
-// //             className="inline-block bg-card hover:bg-card/80 border border-primary/30 text-foreground font-medium px-6 py-3 rounded-full transition-all"
-// //           >
-// //             View All Projects <i className="fas fa-arrow-right ml-2"></i>
-// //           </a>
-// //         </div>
-// //       </div>
-
-// //       {/* Expanded Project View Modal */}
-// //       <AnimatePresence>
-// //         {selectedProject && (
-// //           <motion.div 
-// //             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
-// //             initial={{ opacity: 0 }}
-// //             animate={{ opacity: 1 }}
-// //             exit={{ opacity: 0 }}
-// //             onClick={closeExpandedView}
-// //           >
-// //             <motion.div 
-// //               className="relative w-full max-w-4xl bg-card rounded-xl overflow-hidden shadow-2xl"
-// //               layoutId={`project-card-${selectedProject.id}`}
-// //               onClick={(e) => e.stopPropagation()}
-// //               transition={{ duration: 0.4 }}
-// //             >
-// //               <button 
-// //                 className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-primary transition-all"
-// //                 onClick={closeExpandedView}
-// //               >
-// //                 <i className="fas fa-times"></i>
-// //               </button>
-              
-// //               <div className="md:flex">
-// //                 <div className="md:w-1/2">
-// //                   <div className="h-64 md:h-full relative overflow-hidden">
-// //                     <img 
-// //                       src={selectedProject.image} 
-// //                       alt={selectedProject.title} 
-// //                       className="h-full w-full object-cover"
-// //                     />
-// //                     <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-transparent to-transparent"></div>
-// //                     <div className="absolute bottom-4 left-4 flex space-x-2">
-// //                       {selectedProject.badge && (
-// //                         <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-// //                           <i className={`${selectedProject.badge.icon} text-${selectedProject.badge.color} mr-1.5`}></i> 
-// //                           {selectedProject.badge.text}
-// //                         </span>
-// //                       )}
-// //                       <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full text-white">
-// //                         {selectedProject.date}
-// //                       </span>
-// //                     </div>
-// //                   </div>
-// //                 </div>
-                
-// //                 <div className="md:w-1/2 p-6 md:p-8">
-// //                   <h2 className="text-2xl font-bold font-poppins mb-3">{selectedProject.title}</h2>
-                  
-// //                   <p className="text-muted-foreground mb-6">{selectedProject.description}</p>
-                  
-// //                   <div className="mb-6">
-// //                     <h3 className="text-lg font-medium mb-3">Technologies</h3>
-// //                     <div className="flex flex-wrap gap-2">
-// //                       {selectedProject.technologies.map((tech) => (
-// //                         <span key={tech} className="px-3 py-1 bg-black/20 text-muted-foreground text-sm rounded-full">
-// //                           {tech}
-// //                         </span>
-// //                       ))}
-// //                     </div>
-// //                   </div>
-                  
-// //                   <div className="mb-6">
-// //                     <h3 className="text-lg font-medium mb-3">Categories</h3>
-// //                     <div className="flex flex-wrap gap-2">
-// //                       {selectedProject.categories.map((category) => (
-// //                         <span key={category} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-// //                           {category}
-// //                         </span>
-// //                       ))}
-// //                     </div>
-// //                   </div>
-                  
-// //                   <div className="flex space-x-4">
-// //                     <a 
-// //                       href={selectedProject.github} 
-// //                       className="flex-1 bg-card hover:bg-card/80 border border-primary/30 text-center py-3 rounded-lg transition-all"
-// //                       target="_blank" 
-// //                       rel="noopener noreferrer"
-// //                     >
-// //                       <i className="fab fa-github mr-2"></i> View Code
-// //                     </a>
-// //                     <a 
-// //                       href={selectedProject.demo} 
-// //                       className="flex-1 bg-primary hover:bg-primary/90 text-white text-center py-3 rounded-lg transition-all"
-// //                       target="_blank" 
-// //                       rel="noopener noreferrer"
-// //                     >
-// //                       <i className="fas fa-external-link-alt mr-2"></i> Live Demo
-// //                     </a>
-// //                   </div>
-// //                 </div>
-// //               </div>
-// //             </motion.div>
-// //           </motion.div>
-// //         )}
-// //       </AnimatePresence>
-// //     </section>
-// //   );
-// // }
-
-
-// import { useState } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-
-// type ProjectCategory = "All" | "React" | "MERN" | "UI/UX" | "Python" | "ML";
-
-// interface Project {
-//   id: number;
-//   title: string;
-//   description: string;
-//   date: string;
-//   image: string;
-//   categories: ProjectCategory[];
-//   technologies: string[];
-//   github: string;
-//   demo: string;
-//   badge?: {
-//     text: string;
-//     icon: string;
-//     color: string;
-//   };
-// }
-
-// export default function ProjectsSection() {
-//   const [filter, setFilter] = useState<ProjectCategory>("All");
-//   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
-//   const projects: Project[] = [
-//     {
-//       id: 1,
-//       title: "Horizon Dashboard",
-//       description: "A banking dashboard integrating Plaid API, achieving a 67% increase in speed compared to other sample banking solutions.",
-//       date: "Oct 2023",
-//       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["React", "MERN"],
-//       technologies: ["React", "Node.js", "Firebase"],
-//       github: "https://github.com/HarshNagrani9/Devopia",
-//       demo: "https://www.youtube.com/watch?v=ATHQPB16e_4",
-//       badge: {
-//         text: "Hackathon Finalist",
-//         icon: "fas fa-trophy",
-//         color: "yellow-500"
-//       }
-//     },
-//     {
-//       id: 2,
-//       title: "ChatSync",
-//       description: "A real-time chat application with robust user profiles and secure authentication using JWT tokens.",
-//       date: "Aug 2024",
-//       image: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["React", "MERN"],
-//       technologies: ["React", "Express", "MongoDB", "WebSockets"],
-//       github: "https://github.com/HarshNagrani9/MERN-ChatSync",
-//       demo: "",
-//       badge: {
-//         text: "100% Real-time",
-//         icon: "fas fa-comment",
-//         color: "blue-400"
-//       }
-//     },
-//     {
-//       id: 3,
-//       title: "Apple UI Clone",
-//       description: "A stunning Apple UI clone with 3D model interactions and smooth animations using ThreeJS and GSAP.",
-//       date: "Jun 2024",
-//       image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["React", "UI/UX"],
-//       technologies: ["React", "Three.js", "GSAP"],
-//       github: "https://github.com/HarshNagrani9/apple",
-//       demo: "https://apple-eta-liart.vercel.app/",
-//       badge: {
-//         text: "3D Interactions",
-//         icon: "fas fa-cube",
-//         color: "purple-400"
-//       }
-//     },
-//     {
-//       id: 4,
-//       title: "Movie Recommendation System",
-//       description: "A web-based content-based filtering system that recommends movies based on genre similarity using machine learning techniques.",
-//       date: "May 2024",
-//       image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["Python", "ML"],
-//       technologies: ["Python", "Flask", "Pandas", "scikit-learn", "NumPy"],
-//       github: "https://github.com/HarshNagrani9/Movie-Recomendation-System",
-//       demo: "",
-//       badge: {
-//         text: "ML Project",
-//         icon: "fas fa-brain",
-//         color: "blue-500"
-//       }
-//     },
-//     {
-//       id: 5,
-//       title: "Portfolio Website",
-//       description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
-//       date: "",
-//       image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["React", "UI/UX"],
-//       technologies: ["React", "Framer Motion", "GSAP"],
-//       github: "https://github.com/HarshNagrani9/Personal-Portfolio",
-//       demo: "",
-//       badge: {
-//         text: "Interactive 3D",
-//         icon: "fas fa-cubes",
-//         color: "blue-500"
-//       }
-//     },
-//     {
-//       id: 6,
-//       title: "E-Commerce Dashboard",
-//       description: "Full-stack e-commerce admin dashboard with inventory management, sales analytics, and order processing.",
-//       date: "",
-//       image: "https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-//       categories: ["React", "MERN"],
-//       technologies: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
-//       github: "https://github.com/",
-//       demo: "https://demo.com/",
-//       badge: {
-//         text: "Business Solution",
-//         icon: "fas fa-store",
-//         color: "indigo-500"
-//       }
-//     }
-//   ];
-
-//   const filteredProjects = filter === "All" 
-//     ? projects 
-//     : projects.filter(project => project.categories.includes(filter));
-
-//   // Handle card click to open expanded view
-//   const handleCardClick = (project: Project) => {
-//     setSelectedProject(project);
-//   };
-
-//   // Close expanded view
-//   const closeExpandedView = () => {
-//     setSelectedProject(null);
-//   };
-
-//   return (
-//     <section id="projects" className="py-20">
-//       <div className="container mx-auto px-6">
-//         <div className="text-center mb-12">
-//           <h2 className="section-title text-3xl md:text-4xl font-bold font-poppins mb-4">
-//             My <span className="text-primary">Projects</span>
-//           </h2>
-//           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-//           <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-//             Here are some of the projects I've worked on, showcasing my skills in web development and UI/UX design.
-//           </p>
-//         </div>
-        
-//         <div className="filters flex flex-wrap justify-center gap-3 mb-10">
-//           {(["All", "React", "MERN", "UI/UX", "Python", "ML"] as ProjectCategory[]).map((category) => (
-//             <button
-//               key={category}
-//               className={`px-5 py-2 rounded-full bg-card hover:bg-primary/10 transition-all duration-300 ${
-//                 filter === category ? 'border-2 border-primary text-primary' : 'border border-transparent'
-//               }`}
-//               onClick={() => setFilter(category)}
-//             >
-//               {category}
-//             </button>
-//           ))}
-//         </div>
-        
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-//           {filteredProjects.map((project) => (
-//             <motion.div 
-//               key={project.id}
-//               className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5 cursor-pointer"
-//               whileHover={{ scale: 1.03, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)" }}
-//               onClick={() => handleCardClick(project)}
-//               layoutId={`project-card-${project.id}`}
-//               transition={{ duration: 0.3 }}
-//             >
-//               <div className="relative project-image-container h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
-//                 <img 
-//                   src={project.image} 
-//                   alt={project.title} 
-//                   className="object-cover w-full h-full opacity-90 transition-transform duration-700 hover:scale-105"
-//                 />
-//                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-//               </div>
-              
-//               <div className="p-5">
-//                 <div className="flex justify-between items-start mb-2">
-//                   <h3 className="text-lg font-bold font-poppins">{project.title}</h3>
-//                   <span className="px-2 py-1 bg-primary/5 text-primary text-xs rounded-full">{project.date}</span>
-//                 </div>
-                
-//                 <p className="text-sm text-muted-foreground mb-3 h-12 overflow-hidden">{project.description}</p>
-                
-//                 <div className="flex flex-wrap gap-1.5 mb-4">
-//                   {project.technologies.slice(0, 4).map((tech) => (
-//                     <span key={tech} className="px-2 py-0.5 bg-black/20 text-muted-foreground text-xs rounded-full">
-//                       {tech}
-//                     </span>
-//                   ))}
-//                   {project.technologies.length > 4 && (
-//                     <span className="px-2 py-0.5 bg-primary/5 text-primary text-xs rounded-full">
-//                       +{project.technologies.length - 4}
-//                     </span>
-//                   )}
-//                 </div>
-                
-//                 <div className="flex justify-between items-center">
-//                   <div className="flex space-x-4">
-//                     <a 
-//                       href={project.github} 
-//                       className="text-foreground hover:text-primary transition-colors duration-300" 
-//                       aria-label="View Code" 
-//                       target="_blank" 
-//                       rel="noopener noreferrer"
-//                       onClick={(e) => e.stopPropagation()}
-//                     >
-//                       <i className="fab fa-github"></i>
-//                     </a>
-//                     <a 
-//                       href={project.demo} 
-//                       className="text-foreground hover:text-primary transition-colors duration-300" 
-//                       aria-label="View Demo" 
-//                       target="_blank" 
-//                       rel="noopener noreferrer"
-//                       onClick={(e) => e.stopPropagation()}
-//                     >
-//                       <i className="fas fa-external-link-alt"></i>
-//                     </a>
-//                   </div>
-                  
-//                   {project.badge && (
-//                     <span className="text-xs flex items-center bg-primary/5 px-2 py-1 rounded-full">
-//                       <i className={`${project.badge.icon} text-${project.badge.color} mr-1`}></i> {project.badge.text}
-//                     </span>
-//                   )}
-//                 </div>
-//               </div>
-//             </motion.div>
-//           ))}
-//         </div>
-        
-//         <div className="text-center mt-12">
-//           <a 
-//             href="#" 
-//             className="inline-block bg-card hover:bg-card/80 border border-primary/30 text-foreground font-medium px-6 py-3 rounded-full transition-all"
-//           >
-//             View All Projects <i className="fas fa-arrow-right ml-2"></i>
-//           </a>
-//         </div>
-//       </div>
-
-//       {/* Expanded Project View Modal */}
-//       <AnimatePresence>
-//         {selectedProject && (
-//           <motion.div 
-//             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             exit={{ opacity: 0 }}
-//             onClick={closeExpandedView}
-//           >
-//             <motion.div 
-//               className="relative w-full max-w-4xl bg-card rounded-xl overflow-hidden shadow-2xl"
-//               layoutId={`project-card-${selectedProject.id}`}
-//               onClick={(e) => e.stopPropagation()}
-//               transition={{ duration: 0.4 }}
-//             >
-//               <button 
-//                 className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-primary transition-all"
-//                 onClick={closeExpandedView}
-//               >
-//                 <i className="fas fa-times"></i>
-//               </button>
-              
-//               <div className="md:flex">
-//                 <div className="md:w-1/2">
-//                   <div className="h-64 md:h-full relative overflow-hidden">
-//                     <img 
-//                       src={selectedProject.image} 
-//                       alt={selectedProject.title} 
-//                       className="h-full w-full object-cover"
-//                     />
-//                     <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-transparent to-transparent"></div>
-//                     <div className="absolute bottom-4 left-4 flex space-x-2">
-//                       {selectedProject.badge && (
-//                         <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-//                           <i className={`${selectedProject.badge.icon} text-${selectedProject.badge.color} mr-1.5`}></i> 
-//                           {selectedProject.badge.text}
-//                         </span>
-//                       )}
-//                       <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full text-white">
-//                         {selectedProject.date}
-//                       </span>
-//                     </div>
-//                   </div>
-//                 </div>
-                
-//                 <div className="md:w-1/2 p-6 md:p-8">
-//                   <h2 className="text-2xl font-bold font-poppins mb-3">{selectedProject.title}</h2>
-                  
-//                   <p className="text-muted-foreground mb-6">{selectedProject.description}</p>
-                  
-//                   <div className="mb-6">
-//                     <h3 className="text-lg font-medium mb-3">Technologies</h3>
-//                     <div className="flex flex-wrap gap-2">
-//                       {selectedProject.technologies.map((tech) => (
-//                         <span key={tech} className="px-3 py-1 bg-black/20 text-muted-foreground text-sm rounded-full">
-//                           {tech}
-//                         </span>
-//                       ))}
-//                     </div>
-//                   </div>
-                  
-//                   <div className="mb-6">
-//                     <h3 className="text-lg font-medium mb-3">Categories</h3>
-//                     <div className="flex flex-wrap gap-2">
-//                       {selectedProject.categories.map((category) => (
-//                         <span key={category} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-//                           {category}
-//                         </span>
-//                       ))}
-//                     </div>
-//                   </div>
-                  
-//                   <div className="flex space-x-4">
-//                     <a 
-//                       href={selectedProject.github} 
-//                       className="flex-1 bg-card hover:bg-card/80 border border-primary/30 text-center py-3 rounded-lg transition-all"
-//                       target="_blank" 
-//                       rel="noopener noreferrer"
-//                     >
-//                       <i className="fab fa-github mr-2"></i> View Code
-//                     </a>
-//                     {selectedProject.demo ? (
-//                       <a 
-//                         href={selectedProject.demo} 
-//                         className="flex-1 bg-primary hover:bg-primary/90 text-white text-center py-3 rounded-lg transition-all"
-//                         target="_blank" 
-//                         rel="noopener noreferrer"
-//                       >
-//                         <i className="fas fa-external-link-alt mr-2"></i> Live Demo
-//                       </a>
-//                     ) : null}
-//                   </div>
-//                 </div>
-//               </div>
-//             </motion.div>
-//           </motion.div>
-//         )}
-//       </AnimatePresence>
-//     </section>
-//   );
-// }
-
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import gsap from "gsap";
-
-type ProjectCategory = "All" | "React" | "MERN" | "UI/UX" | "Python" | "ML";
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  detailedDescription?: string[];
-  date: string;
-  image: string;
-  categories: ProjectCategory[];
-  technologies: string[];
-  github: string;
-  demo: string;
-  badge?: {
-    text: string;
-    icon: string;
-    color: string;
-  };
-}
-
-export default function ProjectsSection() {
-  const [filter, setFilter] = useState<ProjectCategory>("All");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
-  const projects: Project[] = [
+  const projects = [
     {
       id: 1,
       title: "MediVault",
-      description: "Full-stack healthcare management platform with blockchain-based file access control, end-to-end encryption, and AI-powered RAG system for intelligent health record analysis.",
-      detailedDescription: [
-        "Built a full-stack healthcare management platform using Next.js 14, TypeScript, and Firebase with role-based authentication, separate dashboards for patients and doctors, and a microservices architecture featuring Python FastAPI for vector search operations, ensuring real-time Firestore synchronization and responsive UI with Tailwind CSS and shadcn/ui.",
-        "Implemented comprehensive security architecture with blockchain-based file access control using Ethereum smart contracts (Solidity) on Sepolia testnet and IPFS for decentralized storage, combined with end-to-end encryption using AES-256-GCM for HIPAA-compliant protection, ensuring patient data ownership and consent-based sharing.",
-        "Designed and implemented a RAG (Retrieval-Augmented Generation) pipeline using Google Gemini 2.0 Flash with FAISS-based vector search, creating separate indices for static medical knowledge (400+ disease entries) and dynamic patient records using Google Embedding API for 768-dimensional vectors, achieving sub-second similarity search performance.",
-        "Developed AI-powered health assistant chatbot that combines static medical knowledge with patient-specific data, providing automated health record analysis, personalized health summaries, actionable recommendations based on vitals, and context-aware responses with source citations for accurate, personalized medical guidance."
-      ],
-      date: "Dec 2024",
-      image: "/images/Google Gemini.jpg",
-      categories: ["React", "MERN", "Python", "ML"],
-      technologies: ["Next.js 14", "TypeScript", "Firebase", "Solidity", "Ethers.js", "IPFS", "FastAPI", "Python", "Google Gemini", "FAISS", "Tailwind CSS", "shadcn/ui"],
+      category: "Blockchain + AI",
+      description: "Full-stack healthcare management platform with blockchain-based file access control, end-to-end encryption, and AI-powered RAG system.",
+      tech: ["Next.js 14", "Solidity", "FastAPI", "Google Gemini"],
+      color: "#10b981", // green-500
+      year: "2024",
       github: "https://github.com/HarshNagrani9/LY-Project",
-      demo: "https://drive.google.com/file/d/1ZbuSqx1R1kmCBXEVOeHAo4sB2raFj24z/view?usp=sharing",
-      badge: {
-        text: "Blockchain + AI",
-        icon: "fas fa-shield-alt",
-        color: "green-500"
-      }
+      demo: "https://drive.google.com/file/d/1ZbuSqx1R1kmCBXEVOeHAo4sB2raFj24z/view?usp=sharing"
     },
     {
       id: 2,
       title: "Horizon Dashboard",
+      category: "Fintech",
       description: "A banking dashboard integrating Plaid API, achieving a 67% increase in speed compared to other sample banking solutions.",
-      date: "Oct 2023",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["React", "MERN"],
-      technologies: ["React", "Node.js", "Firebase"],
+      tech: ["React", "Node.js", "Firebase", "Plaid"],
+      color: "#eab308", // yellow-500
+      year: "2023",
       github: "https://github.com/HarshNagrani9/Devopia",
-      demo: "https://www.youtube.com/watch?v=ATHQPB16e_4",
-      badge: {
-        text: "Hackathon Finalist",
-        icon: "fas fa-trophy",
-        color: "yellow-500"
-      }
+      demo: "https://www.youtube.com/watch?v=ATHQPB16e_4"
     },
     {
       id: 3,
       title: "ChatSync",
-      description: "A real-time chat application with robust user profiles and secure authentication using JWT tokens.",
-      date: "Aug 2024",
-      image: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["React", "MERN"],
-      technologies: ["React", "Express", "MongoDB", "WebSockets"],
+      category: "Real-time App",
+      description: "A real-time chat application with robust user profiles and secure authentication using JWT tokens and WebSockets.",
+      tech: ["React", "Node.js", "MongoDB", "WebSockets"],
+      color: "#60a5fa", // blue-400
+      year: "2024",
       github: "https://github.com/HarshNagrani9/MERN-ChatSync",
-      demo: "",
-      badge: {
-        text: "100% Real-time",
-        icon: "fas fa-comment",
-        color: "blue-400"
-      }
+      demo: "https://github.com/HarshNagrani9/MERN-ChatSync" // Fallback since demo was empty
     },
     {
       id: 4,
       title: "Apple UI Clone",
+      category: "UI/UX",
       description: "A stunning Apple UI clone with 3D model interactions and smooth animations using ThreeJS and GSAP.",
-      date: "Jun 2024",
-      image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["React", "UI/UX"],
-      technologies: ["React", "Three.js", "GSAP"],
+      tech: ["React", "Three.js", "GSAP"],
+      color: "#c084fc", // purple-400
+      year: "2024",
       github: "https://github.com/HarshNagrani9/apple",
-      demo: "https://apple-eta-liart.vercel.app/",
-      badge: {
-        text: "3D Interactions",
-        icon: "fas fa-cube",
-        color: "purple-400"
-      }
+      demo: "https://apple-eta-liart.vercel.app/"
     },
     {
       id: 5,
-      title: "Movie Recommendation System",
-      description: "A web-based content-based filtering system that recommends movies based on genre similarity using machine learning techniques.",
-      date: "May 2024",
-      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["Python", "ML"],
-      technologies: ["Python", "Flask", "Pandas", "scikit-learn", "NumPy"],
+      title: "Movie Rec System",
+      category: "Machine Learning",
+      description: "A web-based content-based filtering system that recommends movies based on genre similarity using ML techniques.",
+      tech: ["Python", "Flask", "scikit-learn", "Pandas"],
+      color: "#3b82f6", // blue-500
+      year: "2024",
       github: "https://github.com/HarshNagrani9/Movie-Recomendation-System",
-      demo: "",
-      badge: {
-        text: "ML Project",
-        icon: "fas fa-brain",
-        color: "blue-500"
-      }
+      demo: "https://github.com/HarshNagrani9/Movie-Recomendation-System"
     },
     {
       id: 6,
-      title: "Portfolio Website",
-      description: "Immersive portfolio website with interactive 3D elements, particle effects, and smooth scrolling animations.",
-      date: "April 2025",
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      categories: ["React", "UI/UX"],
-      technologies: ["React", "Framer Motion", "GSAP"],
-      github: "https://github.com/HarshNagrani9/Personal-Portfolio",
-      demo: "harshnagrani.vercel.app",
-      badge: {
-        text: "Interactive 3D",
-        icon: "fas fa-cubes",
-        color: "blue-500"
-      }
+      title: "E-Commerce Dashboard",
+      category: "Full Stack",
+      description: "Full-stack e-commerce admin dashboard with inventory management, sales analytics, and order processing.",
+      tech: ["React", "Node.js", "Express", "Chart.js"],
+      color: "#6366f1", // indigo-500
+      year: "2024",
+      github: "https://github.com",
+      demo: "https://demo.com"
     }
   ];
 
-  const filteredProjects = filter === "All" 
-    ? projects 
-    : projects.filter(project => project.categories.includes(filter));
+  useEffect(() => {
+    if (!canvasRef.current) return;
 
-  // Handle card click to open expanded view
-  const handleCardClick = (project: Project) => {
-    setSelectedProject(project);
-  };
+    // Scene setup
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x0a0a0a, 10, 50);
+    sceneRef.current = scene;
 
-  // Close expanded view
-  const closeExpandedView = () => {
-    setSelectedProject(null);
-  };
+    // Camera setup
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    // Adjust camera distance based on screen width
+    const isSmallScreen = window.innerWidth < 1024; // tablets and mobile
+    camera.position.z = isSmallScreen ? 8 : 5;
+    cameraRef.current = camera;
 
-  // Spotlight effect logic
-  const initSpotlight = (card: HTMLElement) => {
-    const spotlight = document.createElement("div");
-    spotlight.className = "spotlight-effect";
-    card.appendChild(spotlight);
-    
-    // Initial spotlight positioning
-    gsap.set(spotlight, {
-      width: 300,
-      height: 300,
-      borderRadius: "50%",
-      background: "radial-gradient(circle, rgba(var(--primary-rgb), 0.25) 0%, rgba(var(--primary-rgb), 0.05) 50%, rgba(var(--primary-rgb), 0) 70%)",
-      position: "absolute",
-      pointerEvents: "none",
-      top: 0,
-      left: 0,
-      opacity: 0,
-      zIndex: 1
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      antialias: true,
+      alpha: true
     });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    rendererRef.current = renderer;
 
-    // Mouse move handler for spotlight
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      gsap.to(spotlight, {
-        duration: 0.5,
-        left: x - 150,
-        top: y - 150,
-        opacity: 1,
-        ease: "power2.out"
-      });
+    // Create central geometry with responsive size
+    // Laptop: 2.5, Tablet/Mobile: 1.2
+    const geometrySize = isSmallScreen ? 1.2 : 2.5;
+
+    const geometry = new THREE.IcosahedronGeometry(geometrySize, 1);
+    const material = new THREE.MeshPhongMaterial({
+      color: projects[0].color,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.6,
+      emissive: projects[0].color,
+      emissiveIntensity: 0.2
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    meshRef.current = mesh;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(projects[0].color, 1.5);
+    pointLight1.position.set(5, 5, 5);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xffffff, 0.8);
+    pointLight2.position.set(-5, -5, 5);
+    scene.add(pointLight2);
+
+    // Particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 1000;
+    const positions = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 50;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const particlesMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.02,
+      transparent: true,
+      opacity: 0.6
+    });
+    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particles);
+
+    // Animation loop
+    const animate = () => {
+      // Check if component is still mounted (renderer present)
+      if (!rendererRef.current) return;
+
+      requestAnimationFrame(animate);
+
+      const targetRotationX = scrollProgressRef.current * Math.PI * 2;
+      const targetRotationY = scrollProgressRef.current * Math.PI * 4;
+
+      if (meshRef.current) {
+        meshRef.current.rotation.x += (targetRotationX - meshRef.current.rotation.x) * 0.05;
+        meshRef.current.rotation.y += (targetRotationY - meshRef.current.rotation.y) * 0.05;
+
+        const scale = 1 + Math.sin(Date.now() * 0.001) * 0.1;
+        meshRef.current.scale.setScalar(scale);
+      }
+
+      if (particles) {
+        particles.rotation.y += 0.0005;
+        particles.rotation.x += 0.0003;
+      }
+
+      renderer.render(scene, camera);
     };
+    animate();
 
-    // Mouse enter handler
-    const handleMouseEnter = () => {
-      gsap.to(spotlight, {
-        duration: 0.5,
-        opacity: 1,
-        ease: "power2.out"
-      });
-      
-      // Add subtle glow to the card
-      gsap.to(card, {
-        duration: 0.5,
-        boxShadow: "0 15px 35px rgba(var(--primary-rgb), 0.2)",
-        ease: "power2.out"
-      });
-    };
+    // Handle resize
+    const handleResize = () => {
+      if (!cameraRef.current || !rendererRef.current) return;
 
-    // Mouse leave handler
-    const handleMouseLeave = () => {
-      gsap.to(spotlight, {
-        duration: 0.5,
-        opacity: 0,
-        ease: "power2.out"
-      });
-      
-      // Reset card shadow
-      gsap.to(card, {
-        duration: 0.5,
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-        ease: "power2.out"
-      });
-    };
+      const camera = cameraRef.current;
+      const renderer = rendererRef.current;
 
-    // Add event listeners
-    card.addEventListener("mousemove", handleMouseMove);
-    card.addEventListener("mouseenter", handleMouseEnter);
-    card.addEventListener("mouseleave", handleMouseLeave);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // Return cleanup function
-    return () => {
-      card.removeEventListener("mousemove", handleMouseMove);
-      card.removeEventListener("mouseenter", handleMouseEnter);
-      card.removeEventListener("mouseleave", handleMouseLeave);
-      if (spotlight.parentNode === card) {
-        card.removeChild(spotlight);
+      // Adjust camera distance and mesh size on resize
+      const isSmallScreen = window.innerWidth < 1024;
+      camera.position.z = isSmallScreen ? 8 : 5;
+
+      if (meshRef.current) {
+        const baseSize = isSmallScreen ? 1.2 : 2.5;
+        // Don't shrink too much on resize if logic differs from init
+        // The original code had: meshRef.current.scale.setScalar(baseSize / 2);
+        // But the init was radius=geometrySize. 
+        // Let's rely on the geometry remaining constant but maybe we need to scale if using same geometry
+        // Actually IcosahedronGeometry is created once. 
+        // To resize mesh "physically", we scale it.
+        // But the animation loop overrides scale with pulse.
+        // So we should rely on Camera Distance for responsiveness primarily.
       }
     };
-  };
+    window.addEventListener('resize', handleResize);
 
-  // Initialize spotlight effect on cards
-  useEffect(() => {
-    const cards = document.querySelectorAll('.project-card');
-    const cleanupFunctions: (() => void)[] = [];
-    
-    // Add CSS variable for primary color RGB values
-    const root = document.documentElement;
-    const primaryColor = getComputedStyle(root).getPropertyValue('--primary') || '#3b82f6';
-    
-    // Convert hex to RGB
-    const hexToRgb = (hex: string) => {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
-      return result ? 
-        `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
-        "59, 130, 246"; // Default blue if conversion fails
-    };
-    
-    root.style.setProperty('--primary-rgb', hexToRgb(primaryColor));
-    
-    // Initialize spotlight on each card
-    cards.forEach((card) => {
-      cleanupFunctions.push(initSpotlight(card as HTMLElement));
-    });
-    
-    // Cleanup on unmount
     return () => {
-      cleanupFunctions.forEach(cleanup => cleanup());
+      window.removeEventListener('resize', handleResize);
+      geometry.dispose();
+      material.dispose();
+      particlesGeometry.dispose();
+      particlesMaterial.dispose();
+      // Check if renderer exists before disposing
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+        rendererRef.current = null; // Prevent further renders
+      }
     };
-  }, [filteredProjects]); // Re-initialize when filtered projects change
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+
+      const container = containerRef.current;
+      const scrollHeight = container.scrollHeight - container.clientHeight;
+      const scrolled = container.scrollTop;
+      const progress = scrolled / scrollHeight;
+      scrollProgressRef.current = progress;
+
+      const projectIndex = Math.min(
+        Math.floor(progress * projects.length),
+        projects.length - 1
+      );
+
+      if (projectIndex !== activeProject && !isTransitioning) {
+        setIsTransitioning(true);
+        setActiveProject(projectIndex);
+
+        if (meshRef.current) {
+          const newColor = projects[projectIndex].color;
+          const material = meshRef.current.material;
+
+          const startColor = new THREE.Color(material.color);
+          const endColor = new THREE.Color(newColor);
+          let transitionProgress = 0;
+
+          const colorTransition = setInterval(() => {
+            transitionProgress += 0.05;
+            // Check if material is still valid
+            if (material) {
+              material.color.lerpColors(startColor, endColor, transitionProgress);
+              material.emissive.lerpColors(startColor, endColor, transitionProgress);
+            }
+
+            if (transitionProgress >= 1) {
+              clearInterval(colorTransition);
+              setTimeout(() => setIsTransitioning(false), 300);
+            }
+          }, 16);
+        }
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, [activeProject, isTransitioning, projects]);
 
   return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="section-title text-3xl md:text-4xl font-bold font-poppins mb-4">
-            My <span className="text-primary">Projects</span>
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-          <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-            Here are some of the projects I've worked on, showcasing my skills in web development and UI/UX design.
-          </p>
-        </div>
-        
-        <div className="filters flex flex-wrap justify-center gap-3 mb-10">
-          {(["All", "React", "MERN", "UI/UX", "Python", "ML"] as ProjectCategory[]).map((category) => (
-            <button
-              key={category}
-              className={`px-5 py-2 rounded-full bg-card hover:bg-primary/10 transition-all duration-300 ${
-                filter === category ? 'border-2 border-primary text-primary' : 'border border-transparent'
-              }`}
-              onClick={() => setFilter(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {filteredProjects.map((project) => (
-            <motion.div 
-              key={project.id}
-              className="project-card bg-card rounded-xl overflow-hidden shadow-md border border-primary/5 cursor-pointer relative"
-              whileHover={{ scale: 1.03 }}
-              onClick={() => handleCardClick(project)}
-              layoutId={`project-card-${project.id}`}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="relative project-image-container h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 z-10">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="object-cover w-full h-full opacity-90 transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              </div>
-              
-              <div className="p-5 relative z-10">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold font-poppins">{project.title}</h3>
-                  {project.date && (
-                    <span className="px-2 py-1 bg-primary/5 text-primary text-xs rounded-full">{project.date}</span>
-                  )}
+    <div id="projects" className="relative w-full h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black overflow-hidden">
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 0 }}
+      />
+
+      <div
+        ref={containerRef}
+        className="relative z-10 w-full h-full overflow-y-scroll scrollbar-hide"
+        style={{ scrollBehavior: 'smooth' }}
+      >
+        <div className="h-[50vh]" />
+
+        {projects.map((project, index) => (
+          <div
+            key={project.id}
+            className="min-h-screen flex items-center justify-center px-8"
+            style={{
+              opacity: activeProject === index ? 1 : 0.3,
+              transform: activeProject === index ? 'scale(1)' : 'scale(0.9)',
+              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+          >
+            <div className="max-w-4xl w-full">
+              <div
+                className="backdrop-blur-xl bg-black/40 rounded-3xl p-12 border border-white/20 shadow-2xl"
+                style={{
+                  boxShadow: `0 0 80px ${project.color}30, 0 20px 60px rgba(0,0,0,0.6)`,
+                  transform: activeProject === index ? 'translateY(0)' : 'translateY(40px)',
+                  transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div
+                    className="w-2 h-2 rounded-full animate-pulse"
+                    style={{ backgroundColor: project.color }}
+                  />
+                  <span className="text-gray-400 text-sm uppercase tracking-wider">
+                    {project.category}
+                  </span>
+                  <span className="text-gray-500 text-sm ml-auto">{project.year}</span>
                 </div>
-                
-                <p className="text-sm text-muted-foreground mb-3 h-12 overflow-hidden">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.technologies.slice(0, 4).map((tech) => (
-                    <span key={tech} className="px-2 py-0.5 bg-black/20 text-muted-foreground text-xs rounded-full">
+
+                <h2
+                  className="text-3xl md:text-5xl font-bold mb-6 text-white drop-shadow-2xl"
+                  style={{
+                    textShadow: `0 0 40px rgba(0,0,0,0.8), 0 0 20px ${project.color}60, 2px 2px 4px rgba(0,0,0,0.9)`
+                  }}
+                >
+                  {project.title}
+                </h2>
+
+                <p className="text-gray-100 text-lg mb-8 leading-relaxed drop-shadow-lg" style={{
+                  textShadow: '0 2px 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)'
+                }}>
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-3 mb-8">
+                  {project.tech.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm"
+                      style={{
+                        backgroundColor: `${project.color}20`,
+                        color: project.color,
+                        border: `1px solid ${project.color}40`
+                      }}
+                    >
                       {tech}
                     </span>
                   ))}
-                  {project.technologies.length > 4 && (
-                    <span className="px-2 py-0.5 bg-primary/5 text-primary text-xs rounded-full">
-                      +{project.technologies.length - 4}
-                    </span>
-                  )}
                 </div>
-                
-                <div className="flex justify-between items-center">
-                  <div className="flex space-x-4">
-                    <a 
-                      href={project.github} 
-                      className="text-foreground hover:text-primary transition-colors duration-300" 
-                      aria-label="View Code" 
-                      target="_blank" 
+
+                <div className="flex gap-4">
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
+                      className="px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 text-white"
+                      style={{
+                        backgroundColor: project.color,
+                        boxShadow: `0 10px 30px ${project.color}40`
+                      }}
                     >
-                      <i className="fab fa-github"></i>
+                      View Project
                     </a>
-                    {project.demo && (
-                      <a 
-                        href={project.demo} 
-                        className="text-foreground hover:text-primary transition-colors duration-300" 
-                        aria-label="View Demo" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <i className="fas fa-external-link-alt"></i>
-                      </a>
-                    )}
-                  </div>
-                  
-                  {project.badge && (
-                    <span className="text-xs flex items-center bg-primary/5 px-2 py-1 rounded-full">
-                      <i className={`${project.badge.icon} text-${project.badge.color} mr-1`}></i> {project.badge.text}
-                    </span>
                   )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 rounded-xl font-medium border border-white/20 hover:bg-white/5 transition-all duration-300 text-white"
+                    >
+                      GitHub
+                    </a>
+                  )}
+
+                </div>
+
+                <div className="mt-8 flex items-center gap-4 text-sm text-gray-500">
+                  <span>Project {index + 1} of {projects.length}</span>
+                  <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{
+                        width: `${((index + 1) / projects.length) * 100}%`,
+                        backgroundColor: project.color
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        <div className="text-center mt-12">
-          <a 
-            href="#" 
-            className="inline-block bg-card hover:bg-card/80 border border-primary/30 text-foreground font-medium px-6 py-3 rounded-full transition-all"
-          >
-            View All Projects <i className="fas fa-arrow-right ml-2"></i>
-          </a>
-        </div>
+            </div>
+          </div>
+        ))}
+
+        <div className="h-[50vh]" />
       </div>
 
-      {/* Expanded Project View Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeExpandedView}
-          >
-            <motion.div 
-              className="relative w-full max-w-4xl bg-card rounded-xl overflow-hidden shadow-2xl"
-              layoutId={`project-card-${selectedProject.id}`}
-              onClick={(e) => e.stopPropagation()}
-              transition={{ duration: 0.4 }}
-            >
-              <button 
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-primary transition-all"
-                onClick={closeExpandedView}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-              
-              <div className="md:flex">
-                <div className="md:w-1/2">
-                  <div className="h-64 md:h-full relative overflow-hidden">
-                    <img 
-                      src={selectedProject.image} 
-                      alt={selectedProject.title} 
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-transparent to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 flex space-x-2">
-                      {selectedProject.badge && (
-                        <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                          <i className={`${selectedProject.badge.icon} text-${selectedProject.badge.color} mr-1.5`}></i> 
-                          {selectedProject.badge.text}
-                        </span>
-                      )}
-                      {selectedProject.date && (
-                        <span className="text-xs flex items-center bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full text-white">
-                          {selectedProject.date}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="md:w-1/2 p-6 md:p-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                  <h2 className="text-2xl font-bold font-poppins mb-3">{selectedProject.title}</h2>
-                  
-                  {selectedProject.detailedDescription ? (
-                    <div className="mb-6">
-                      <ul className="space-y-3 text-muted-foreground">
-                        {selectedProject.detailedDescription.map((point, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className="text-primary mr-2 mt-1">•</span>
-                            <span className="flex-1">{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    <p className="text-muted-foreground mb-6">{selectedProject.description}</p>
-                  )}
-                  
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium mb-3">Technologies</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map((tech) => (
-                        <span key={tech} className="px-3 py-1 bg-black/20 text-muted-foreground text-sm rounded-full">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium mb-3">Categories</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.categories.map((category) => (
-                        <span key={category} className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                          {category}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="flex space-x-4">
-                    <a 
-                      href={selectedProject.github} 
-                      className="flex-1 bg-card hover:bg-card/80 border border-primary/30 text-center py-3 rounded-lg transition-all"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fab fa-github mr-2"></i> View Code
-                    </a>
-                    {selectedProject.demo && (
-                      <a 
-                        href={selectedProject.demo} 
-                        className="flex-1 bg-primary hover:bg-primary/90 text-white text-center py-3 rounded-lg transition-all"
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                      >
-                        <i className="fas fa-external-link-alt mr-2"></i> Live Demo
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
+
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
   );
-}
+};
 
-
+export default Projects3DShowcase;
