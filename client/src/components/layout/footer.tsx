@@ -20,11 +20,12 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-end">
             <p className="text-sm opacity-75 mb-2">© {new Date().getFullYear()} Harsh Nagrani. All rights reserved.</p>
             <a 
-              href="/Harsh_Nagrani_Resume.pdf" 
+              href="https://drive.google.com/file/d/1sgIgzjVzvXGNO3CpseSaF9JPRtdaRiT9/view?usp=sharing" 
               className="text-sm text-primary hover:underline"
-              download
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Download Resume
+              View Resume
             </a>
           </div>
         </div>
