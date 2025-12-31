@@ -14,7 +14,7 @@ type ShapeType = 'torus' | 'sphere' | 'cube' | 'random';
 
 const HeroSection = () => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [currentShape, setCurrentShape] = useState<ShapeType>('torus');
+  const [currentShape, setCurrentShape] = useState<ShapeType>('sphere');
 
   // Refs for Three.js objects
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -22,7 +22,7 @@ const HeroSection = () => {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const particlesRef = useRef<THREE.Points | null>(null);
   const geometryRef = useRef<THREE.BufferGeometry | null>(null);
-  const mouseRef = useRef(new THREE.Vector2(9999, 9999));
+  const mouseRef = useRef(new THREE.Vector2(0, 0));
   const isExplodedRef = useRef(false);
   const reqRef = useRef<number | null>(null);
 
@@ -211,17 +211,17 @@ const HeroSection = () => {
         (Math.random() - 0.5) * 60
       );
 
-      // Initial Color (Blue/Cyan Gradient)
+      // Initial Color (Red Gradient for Sphere)
       const color = new THREE.Color();
-      color.setHSL(0.55 + Math.random() * 0.1, 0.8, 0.6);
+      color.setHSL(0.0 + Math.random() * 0.1, 0.8, 0.6);
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;
       colors[i * 3 + 2] = color.b;
 
-      // Start & Target = Torus
-      const x = shapesRef.current.torus[i * 3];
-      const y = shapesRef.current.torus[i * 3 + 1];
-      const z = shapesRef.current.torus[i * 3 + 2];
+      // Start & Target = Sphere
+      const x = shapesRef.current.sphere[i * 3];
+      const y = shapesRef.current.sphere[i * 3 + 1];
+      const z = shapesRef.current.sphere[i * 3 + 2];
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
@@ -254,42 +254,12 @@ const HeroSection = () => {
     });
 
     const particles = new THREE.Points(geometry, material);
-    // Start at slightly smaller scale for subtle entrance effect
-    particles.scale.set(0.9, 0.9, 0.9);
-    // Add slight initial rotation for dynamic feel
-    particles.rotation.z = Math.PI / 12;
+    // Start at normal scale with no rotation
+    particles.scale.set(1, 1, 1);
+    particles.rotation.set(0, 0, 0);
+    material.opacity = 0.8;
     scene.add(particles);
     particlesRef.current = particles;
-
-    // Subtle Entrance Animation - Torus appears with gentle movement
-    setTimeout(() => {
-      if (window.gsap && particlesRef.current) {
-        // Fade in opacity (from 0.3 to 0.8)
-        window.gsap.to(material, {
-          opacity: 0.8,
-          duration: 1.8,
-          ease: "power2.out"
-        });
-        
-        // Gentle scale animation (slight grow from 0.9 to 1.0)
-        window.gsap.to(particlesRef.current.scale, {
-          x: 1, y: 1, z: 1,
-          duration: 2.2,
-          ease: "power2.out"
-        });
-        
-        // Subtle rotation animation for gentle movement
-        window.gsap.to(particlesRef.current.rotation, {
-          z: Math.PI / 8, // Slight tilt
-          duration: 3,
-          ease: "power1.out"
-        });
-      } else if (particlesRef.current) {
-        // Fallback if GSAP not loaded
-        particlesRef.current.scale.set(1, 1, 1);
-        material.opacity = 0.8;
-      }
-    }, 100);
 
     // --- EVENT LISTENERS ---
     const handleMouseMove = (event: MouseEvent) => {
@@ -350,7 +320,7 @@ const HeroSection = () => {
         const iy = i * 3 + 1;
         const iz = i * 3 + 2;
 
-        const speed = isExplodedRef.current ? 0.05 : 0.08;
+        const speed = isExplodedRef.current ? 0.05 : 0.02;
 
         // 1. Seek Target
         positions[ix] += (targets[ix] - positions[ix]) * speed;
@@ -374,20 +344,19 @@ const HeroSection = () => {
           }
         }
 
-        // 3. Ambient Float (Simplified trig for perf)
-        positions[ix] += Math.sin(time * 0.5 + positions[iy] * 0.05) * 0.02;
-        positions[iy] += Math.cos(time * 0.3 + positions[iz] * 0.05) * 0.02;
+        // Ambient Float removed for static particles
       }
 
       geom.attributes.position.needsUpdate = true;
 
-      // Global Rotation
+      // Mouse Parallax only (no auto rotation)
       if (!isExplodedRef.current) {
-        particles.rotation.y += 0.001;
-
-        // Soft Mouse Parallax
-        particles.rotation.x += (mouseRef.current.y * 0.2 - particles.rotation.x) * 0.05;
-        particles.rotation.y += (mouseRef.current.x * 0.2 - particles.rotation.y) * 0.05;
+        // Soft Mouse Parallax - only apply if mouse has moved
+        const mouseMoved = Math.abs(mouseRef.current.x) > 0.01 || Math.abs(mouseRef.current.y) > 0.01;
+        if (mouseMoved) {
+          particles.rotation.x += (mouseRef.current.y * 0.2 - particles.rotation.x) * 0.05;
+          particles.rotation.y += (mouseRef.current.x * 0.2 - particles.rotation.y) * 0.05;
+        }
       }
 
       renderer.render(scene, camera);
@@ -425,7 +394,7 @@ const HeroSection = () => {
         ref={mountRef}
         className="absolute top-0 left-0 w-full h-full z-0 cursor-crosshair opacity-60 md:opacity-100 transition-opacity duration-1000"
         onClick={() => {
-          const shapes: ShapeType[] = ['torus', 'sphere', 'cube', 'random'];
+          const shapes: ShapeType[] = ['sphere', 'torus', 'cube', 'random'];
           const next = shapes[(shapes.indexOf(currentShape) + 1) % shapes.length];
           handleShapeTransition(next);
         }}
@@ -527,8 +496,8 @@ const HeroSection = () => {
           <div className="col-span-2 md:col-span-1 flex flex-col items-center gap-4">
             <div className={`flex gap-2 ${glassPanelClass} p-1.5 rounded-full`}>
               {[
-                { id: 'torus' as ShapeType, icon: '◎', title: 'Torus' },
                 { id: 'sphere' as ShapeType, icon: '●', title: 'Sphere' },
+                { id: 'torus' as ShapeType, icon: '◎', title: 'Torus' },
                 { id: 'cube' as ShapeType, icon: '■', title: 'Cube' },
                 { id: 'random' as ShapeType, icon: '⚄', title: 'Chaos' },
               ].map((shape) => (
