@@ -455,20 +455,20 @@ const HeroSection = () => {
         {/* Center Content: Name & Bio */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-auto w-full max-w-4xl px-4">
           <h2 className="text-lg md:text-2xl font-medium text-indigo-400 mb-2 animate-fade-in-up">
-                Hello, I'm
+            Hello, I'm
           </h2>
               
           <h1 className="text-5xl md:text-8xl font-black tracking-tight mb-6 leading-tight drop-shadow-2xl">
             <span className="text-slate-100">Harsh </span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Nagrani</span>
-              </h1>
+          </h1>
               
           <h3 className="text-xl md:text-2xl text-slate-400 font-light tracking-wide mb-8">
-                Software Developer
+            Software Developer
           </h3>
 
           <p className="max-w-xl mx-auto text-slate-400 text-sm md:text-base leading-relaxed mb-10">
-                Building interactive web experiences with modern technologies and a passion for clean code.
+            Building interactive web experiences with modern technologies and a passion for clean code.
             Specializing in MERN Stack and Real-time Applications.
           </p>
 
@@ -495,18 +495,18 @@ const HeroSection = () => {
 
           {/* Social Links */}
           <div className="flex justify-center space-x-6">
-                {socialLinks.map((link) => (
-                  <a 
-                    key={link.label}
-                    href={link.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+            {socialLinks.map((link) => (
+              <a 
+                key={link.label}
+                href={link.href} 
+                target="_blank" 
+                rel="noopener noreferrer" 
                 className="text-slate-400 hover:text-indigo-400 text-2xl transition-transform hover:-translate-y-1 hover:scale-110"
                 title={link.label}
-                  >
-                    <i className={link.icon}></i>
-                  </a>
-                ))}
+              >
+                <i className={link.icon}></i>
+              </a>
+            ))}
           </div>
         </div>
 
@@ -564,8 +564,8 @@ const HeroSection = () => {
             <div>
               <div className="text-xl font-bold text-white">8.0</div>
               <div className="text-[10px] text-slate-500 uppercase tracking-wider">CGPA</div>
-  </div>
-</div>
+            </div>
+          </div>
         </div>
         
         {/* Scroll Indicator */}
