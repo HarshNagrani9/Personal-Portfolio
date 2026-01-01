@@ -59,11 +59,9 @@ function App() {
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Loader timeout
-    const timer = setTimeout(() => setLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  const handleLoadComplete = () => {
+    setLoading(false);
+  };
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -73,7 +71,7 @@ function App() {
     <div className={theme === 'dark' ? 'dark' : ''}>
       <div className="min-h-screen bg-background text-foreground font-inter overflow-x-hidden">
         {loading ? (
-          <Loader />
+          <Loader onComplete={handleLoadComplete} />
         ) : (
           <>
             <CustomCursor />
