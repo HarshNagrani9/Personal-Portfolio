@@ -1,8 +1,12 @@
-.triangle-shape {
-    width: 0;
-    height: 0;
-    border-left: 1.25rem solid transparent;
-    border-right: 1.25rem solid transparent;
-    border-bottom: 2.2rem solid #3b82f6;
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
   }
-  
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
