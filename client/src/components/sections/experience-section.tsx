@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 
-import { 
-  motion, 
-  useScroll, 
-  useTransform, 
-  useSpring, 
-  useMotionValue, 
-  useMotionTemplate, 
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValue,
+  useMotionTemplate,
   useVelocity,
   AnimatePresence
 } from 'framer-motion';
@@ -15,6 +15,15 @@ import { Briefcase, GraduationCap, ChevronDown, Sparkles, Zap } from 'lucide-rea
 
 // --- Data ---
 const experiences = [
+  {
+    id: 7,
+    role: "Software Engineering Intern",
+    company: "Inventurus Knowledge Solutions",
+    date: "Jan 2026 - Present",
+    description: "Working with their Engineering Tech Team to build scalable systems",
+    tags: ["Scalable Systems", "Software Engineering"],
+    type: "experience"
+  },
   {
     id: 1,
     role: "Software Engineering Intern",
@@ -77,7 +86,7 @@ const education = [
 const InteractiveCard = ({ item, scrollVelocity }) => {
   const [isOpen, setIsOpen] = useState(false);
   const cardRef = useRef(null);
-  
+
   // Motion Values for Mouse Interaction
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -89,7 +98,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
   const rotateY = useSpring(useTransform(x, [-100, 100], [-5, 5]), { stiffness: 300, damping: 20 });
 
   // Velocity Skew (Reactive to Scroll)
-  const skew = useTransform(scrollVelocity, [-5, 5], [2, -2]); 
+  const skew = useTransform(scrollVelocity, [-5, 5], [2, -2]);
   const skewSpring = useSpring(skew, { stiffness: 400, damping: 30 });
 
   function handleMouseMove(e) {
@@ -97,11 +106,11 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     // Set values for Tilt
     x.set(e.clientX - centerX);
     y.set(e.clientY - centerY);
-    
+
     // Set values for Spotlight
     mouseX.set(e.clientX - rect.left);
     mouseY.set(e.clientY - rect.top);
@@ -110,7 +119,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
   function handleMouseLeave() {
     x.set(0);
     y.set(0);
-    mouseX.set(0); 
+    mouseX.set(0);
     mouseY.set(0);
   }
 
@@ -120,7 +129,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        perspective: 1200, 
+        perspective: 1200,
         skewY: skewSpring, // Apply physics skew
       }}
       initial={{ opacity: 0, rotateX: -30, y: 100, scale: 0.9 }}
@@ -133,7 +142,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
       <div className={`absolute top-8 -left-[45px] md:-left-[69px] w-6 h-6 rounded-full border-4 border-background z-20 
         ${item.type === 'experience' ? 'bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.8)]' : 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)]'}
       `} />
-      
+
       {/* Connector Line (Horizontal) */}
       <div className={`absolute top-[43px] -left-[45px] md:-left-[65px] w-12 h-[2px] z-0
          ${item.type === 'experience' ? 'bg-gradient-to-r from-blue-500 to-transparent' : 'bg-gradient-to-r from-emerald-500 to-transparent'}
@@ -141,15 +150,15 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
       <motion.div
         layout
         onClick={() => setIsOpen(!isOpen)}
-        style={{ 
-          rotateX, 
-          rotateY, 
-          transformStyle: "preserve-3d" 
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d"
         }}
         className={`
           group relative cursor-pointer overflow-hidden rounded-2xl border transition-all duration-300
-          ${isOpen 
-            ? 'bg-zinc-900/90 border-zinc-600 ring-1 ring-white/10' 
+          ${isOpen
+            ? 'bg-zinc-900/90 border-zinc-600 ring-1 ring-white/10'
             : 'bg-zinc-900/40 border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/50'
           }
         `}
@@ -170,7 +179,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
 
         {/* Content Container */}
         <div className="relative p-6 md:p-8 transform-style-3d">
-          
+
           {/* Header Row */}
           <div className="flex justify-between items-start gap-4">
             <div className="flex-1">
@@ -181,8 +190,8 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
                 </span>
                 <AnimatePresence>
                   {!isOpen && (
-                    <motion.div 
-                      initial={{ opacity: 0, x: -10 }} 
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
                       className="text-xs text-zinc-500 flex items-center gap-1"
@@ -192,7 +201,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
                   )}
                 </AnimatePresence>
               </div>
-              
+
               <h3 className="text-xl md:text-2xl font-bold text-zinc-100 leading-tight group-hover:text-white transition-colors">
                 {item.role || item.degree}
               </h3>
@@ -203,8 +212,8 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
             {/* Icon Box */}
             <div className={`
               flex-shrink-0 p-3 rounded-xl border border-white/5 shadow-lg backdrop-blur-sm
-              ${item.type === 'experience' 
-                ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20' 
+              ${item.type === 'experience'
+                ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
                 : 'bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20'}
               transition-colors duration-300
             `}>
@@ -228,7 +237,7 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {item.tags && item.tags.map((tag, i) => (
-                      <motion.span 
+                      <motion.span
                         key={tag}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -248,9 +257,9 @@ const InteractiveCard = ({ item, scrollVelocity }) => {
               </motion.div>
             )}
           </AnimatePresence>
-          
+
           {/* Chevron Indicator */}
-          <motion.div 
+          <motion.div
             animate={{ rotate: isOpen ? 180 : 0 }}
             className="absolute bottom-6 right-6 text-zinc-600 group-hover:text-zinc-400"
           >
@@ -267,16 +276,16 @@ const ParallaxBackground = () => {
   const { scrollYProgress } = useScroll();
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -400]);
-  
+
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       {/* Noise */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      
+
       {/* Floating Blobs */}
       <motion.div style={{ y: y1 }} className="absolute top-[10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-blue-600/5 blur-[100px]" />
       <motion.div style={{ y: y2 }} className="absolute top-[40%] right-[-10%] w-[30vw] h-[30vw] rounded-full bg-emerald-500/5 blur-[100px]" />
-      
+
       {/* Grid Lines */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
     </div>
@@ -290,21 +299,21 @@ const ProgressBeam = ({ containerRef }) => {
   const smoothHeight = useSpring(height, { stiffness: 100, damping: 30 });
   return (
     <div className="absolute left-[20px] md:left-[36px] top-0 bottom-12 w-[2px] z-0">
-      
+
       {/* Track: A dotted/dashed mechanical path */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 overflow-hidden">
-         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05)_4px,transparent_4px)] bg-[size:100%_12px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05)_4px,transparent_4px)] bg-[size:100%_12px]" />
       </div>
       {/* Fill: Glowing liquid light */}
-      <motion.div 
+      <motion.div
         style={{ height: smoothHeight }}
         className="absolute top-0 left-0 w-full bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-400 shadow-[0_0_15px_rgba(59,130,246,0.6)]"
       >
-         {/* Head: The "Energy Core" / Comet */}
-         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-white z-10 shadow-[0_0_20px_2px_rgba(255,255,255,0.8)]">
-            <div className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
-            <div className="absolute inset-0 rounded-full bg-blue-400 blur-sm" />
-         </div>
+        {/* Head: The "Energy Core" / Comet */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-white z-10 shadow-[0_0_20px_2px_rgba(255,255,255,0.8)]">
+          <div className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
+          <div className="absolute inset-0 rounded-full bg-blue-400 blur-sm" />
+        </div>
       </motion.div>
     </div>
   );
@@ -323,10 +332,10 @@ export default function ExperienceSection() {
       <ParallaxBackground />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-8 py-24">
-        
+
         {/* Intro */}
         <div className="mb-32 text-center relative">
-        <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 1 }}
@@ -337,9 +346,9 @@ export default function ExperienceSection() {
             <p className="text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               Tracing the milestones of my academic foundations and professional evolution.
             </p>
-        </motion.div>
+          </motion.div>
 
-          <motion.div 
+          <motion.div
             style={{ opacity: introOpacity }}
             className="absolute -bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-600"
           >
@@ -361,7 +370,7 @@ export default function ExperienceSection() {
               className="flex items-center gap-6 mb-16 relative"
             >
               <div className="absolute -left-[45px] md:-left-[69px] w-6 h-6 rounded-full bg-background border-4 border-emerald-500/30 z-20" />
-              
+
               <div className="p-3 bg-card border border-emerald-500/30 rounded-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
                 <GraduationCap className="text-emerald-400" size={28} />
               </div>
@@ -400,13 +409,13 @@ export default function ExperienceSection() {
               ))}
             </div>
           </section>
-          </div>
+        </div>
 
         {/* Footer Message */}
         <div className="mt-32 text-center">
-            <p className="text-zinc-700 font-mono text-xs">
-              END OF LOGS // MORE TO COME
-            </p>
+          <p className="text-zinc-700 font-mono text-xs">
+            END OF LOGS // MORE TO COME
+          </p>
         </div>
       </div>
     </section>
