@@ -600,9 +600,13 @@ export default function ExperienceSection() {
 
   useEffect(() => { setCurrentPalette(PALETTES[activeIdx % PALETTES.length]); }, [activeIdx]);
 
+  // Each event occupies this many viewport-heights of scroll (higher = slower)
+  const SCROLL_MULT = 1.8;
+
   useEffect(() => {
     const sH = window.innerHeight;
-    const tS = EVENTS.length * sH;
+    const eventStep = sH * SCROLL_MULT; // scroll distance per event
+    const tS = EVENTS.length * eventStep;
     const hs = () => {
       const section = sectionRef.current;
       if (!section) return;
@@ -620,15 +624,13 @@ export default function ExperienceSection() {
       setIsVisible(true);
       const y = Math.max(0, relativeY);
       setScrollT(clamp(y / tS, 0, 1));
-      const p = y / sH;
+      const p = y / eventStep; // progress in event-steps
 
       // Outro phase: after all events, the last sphere contracts and camera zooms out
       if (p >= EVENTS.length) {
         setActiveIdx(EVENTS.length - 1);
-        // outroProgress goes 0→1 over the final viewport of scroll
         const outroProgress = clamp(p - EVENTS.length, 0, 1);
         setOutroT(outroProgress);
-        // Smoothly decrease transitionT to 0 so the sphere contracts
         setTransitionT(clamp(1 - outroProgress * 1.5, 0, 1));
         return;
       }
@@ -653,7 +655,7 @@ export default function ExperienceSection() {
 
   return (
     <div id="experience" ref={sectionRef} style={{
-      minHeight: `${(EVENTS.length + 1) * 100}vh`,
+      minHeight: `${(EVENTS.length + 1) * 100 * SCROLL_MULT}vh`,
       background: "radial-gradient(ellipse at 35% 40%, #080e22 0%, #050a18 40%, #020610 100%)",
       position: "relative", fontFamily: "'Outfit',sans-serif",
     }}>
@@ -692,7 +694,7 @@ export default function ExperienceSection() {
             palette={currentPalette} isMobile={isMobile} />
         ))}
 
-        {!isMobile && isVisible && <ScrollNav activeIdx={activeIdx} palette={currentPalette} />}
+        {!isMobile && showOverlay && <ScrollNav activeIdx={activeIdx} palette={currentPalette} />}
 
         {/* Scroll hint */}
         <div style={{
