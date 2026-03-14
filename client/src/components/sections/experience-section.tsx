@@ -581,6 +581,7 @@ export default function ExperienceSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [currentPalette, setCurrentPalette] = useState(PALETTES[0]);
   const [isVisible, setIsVisible] = useState(false);
+  const [outroT, setOutroT] = useState(0); // 0 = no outro, 1 = fully faded out
 
   useEffect(() => {
     ["https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap",
@@ -609,11 +610,10 @@ export default function ExperienceSection() {
       const sectionHeight = section.offsetHeight;
       const relativeY = window.scrollY - sectionTop;
 
-      // Only active when scrolling through this section
-      // Hide the overlay one full viewport before the section ends
-      // so it doesn't bleed into the next section
-      if (relativeY < -sH * 0.1 || relativeY > sectionHeight - sH * 1.2) {
+      // Completely outside section bounds
+      if (relativeY < -sH * 0.1 || relativeY > sectionHeight) {
         setIsVisible(false);
+        setOutroT(0);
         return;
       }
 
@@ -621,6 +621,20 @@ export default function ExperienceSection() {
       const y = Math.max(0, relativeY);
       setScrollT(clamp(y / tS, 0, 1));
       const p = y / sH;
+
+      // Outro phase: after all events, the last sphere contracts and camera zooms out
+      if (p >= EVENTS.length) {
+        setActiveIdx(EVENTS.length - 1);
+        // outroProgress goes 0→1 over the final viewport of scroll
+        const outroProgress = clamp(p - EVENTS.length, 0, 1);
+        setOutroT(outroProgress);
+        // Smoothly decrease transitionT to 0 so the sphere contracts
+        setTransitionT(clamp(1 - outroProgress * 1.5, 0, 1));
+        return;
+      }
+
+      // Normal event phase
+      setOutroT(0);
       setActiveIdx(clamp(Math.floor(p), 0, EVENTS.length - 1));
       const w = p - Math.floor(p);
       let tv;
@@ -633,6 +647,10 @@ export default function ExperienceSection() {
     return () => window.removeEventListener("scroll", hs);
   }, []);
 
+  // Compute overlay opacity: fully visible during events, fades during outro
+  const overlayOpacity = isVisible ? clamp(1 - outroT * 1.8, 0, 1) : 0;
+  const showOverlay = isVisible && overlayOpacity > 0.01;
+
   return (
     <div id="experience" ref={sectionRef} style={{
       minHeight: `${(EVENTS.length + 1) * 100}vh`,
@@ -641,11 +659,11 @@ export default function ExperienceSection() {
     }}>
       <div style={{
         position: "fixed", inset: 0, overflow: "hidden",
-        opacity: isVisible ? 1 : 0,
-        pointerEvents: isVisible ? "auto" : "none",
-        visibility: isVisible ? "visible" : "hidden",
-        transition: "opacity 0.4s ease",
-        zIndex: isVisible ? 10 : -1,
+        opacity: overlayOpacity,
+        pointerEvents: showOverlay ? "auto" : "none",
+        visibility: showOverlay ? "visible" : "hidden",
+        transition: "opacity 0.3s ease",
+        zIndex: showOverlay ? 10 : -1,
       }}>
         <UniverseCanvas activeIdx={activeIdx} transitionT={transitionT} width={dims.w} height={dims.h} />
 
